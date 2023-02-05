@@ -6,6 +6,8 @@ COPY package*.json ./
 
 RUN npm install
 
+RUN npm install --prefix ./client
+
 COPY . .
 
 CMD ["npm", "start"]

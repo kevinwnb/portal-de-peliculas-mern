@@ -1,0 +1,203 @@
+nav {
+  padding: 20px 0px;
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.9);
+  width: 100%;
+  z-index: 2;
+}
+
+nav ul {
+  padding: 0 1vw;
+  margin: 0;
+  display: flex;
+}
+
+nav ul li {
+  display: inline-block;
+  list-style-type: none;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  padding: 5px;
+  margin: 0px 10px 0 0;
+  transition: color 0.2s;
+  font-size: 1.25rem;
+}
+
+nav ul li a:hover {
+  color: mediumseagreen;
+}
+
+nav ul li a.active {
+  color: mediumseagreen;
+}
+
+nav ul li.logout a:hover {
+  color: red;
+}
+
+
+
+.login-panel {
+  max-width: 400px;
+  min-width: 300px;
+}
+
+.login-panel .username,
+.login-panel .password {
+  padding: 5px;
+  border: 1px solid black;
+  font-size: 120%;
+}
+
+.login-panel input:not([type='checkbox']),
+.login-panel a {
+  margin: 7px 0;
+}
+
+.login-panel button {
+  background-color: mediumseagreen;
+  margin: 7px 0;
+}
+
+.login-bg {
+  background-image: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)), url("./componentes/imagenes/series-netflix.webp");
+  height: 100vh;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+}
+
+.favoritas>div {
+  width: 25%;
+  padding: 1vw;
+  position: relative;
+  overflow: hidden;
+}
+
+.favoritas div div h5.stars {
+  content: "+++++";
+  padding: 5px;
+  background-color: white;
+  font-size: 120%;
+  transform: skew(15deg);
+  position: absolute;
+  left: -1vw;
+  transition: all 0.2s;
+  opacity: 0;
+  z-index: 1;
+}
+
+.favoritas div div:hover h5.stars {
+  left: +2vw;
+  opacity: 1;
+}
+
+.favoritas div div {
+  overflow: hidden;
+  position: relative;
+}
+
+.favoritas div div::before {
+  content: "";
+  opacity: 0;
+  transition: all 0.2s;
+  position: absolute;
+}
+
+.favoritas div div:hover::before {
+  content: "";
+  opacity: 1;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.favoritas img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 15px;
+}
+
+.favoritas div h5 {
+  font-size: 1rem;
+}
+
+.contenido {
+  padding-top: 130px;
+}
+
+.boton-ver {
+  background-color: gold;
+  color: black;
+  font-weight: bold;
+  padding: 10px;
+  text-decoration: none;
+}
+
+.boton-comprar-4k {
+  margin-left: 10px;
+  background-color: dodgerblue;
+  color: black;
+  font-weight: bold;
+  padding: 10px;
+  text-decoration: none;
+}
+
+.boton-comprar-4k:hover {
+  color: black;
+  outline: 2px solid black;
+}
+
+.boton-ver:hover {
+  color: black;
+  outline: 2px solid black;
+}
+
+.buscador {
+  padding: 15px;
+  width: 70%;
+  font-size: 150%;
+  margin: 0 1vw 1vw 1vw;
+  position: absolute;
+}
+
+.register form {
+  display: flex;
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
+  flex-direction: column;
+}
+
+.register form label {
+  font-weight: bold;
+}
+
+.register form input {
+  border: 1px solid black;
+  padding: 5px;
+  font-size: 120%;
+}
+
+.register form > div {
+  margin-bottom: 15px;
+}
+
+@media (max-width: 500px) {
+  .favoritas>div {
+    width: 50%;
+  }
+}
+
+@media (min-width: 320px) {
+  .favoritas div h5 {
+    font-size: 1.25rem;
+  }
+}
