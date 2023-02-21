@@ -44,6 +44,31 @@ nav ul li.logout a:hover {
   color: red;
 }
 
+nav ul li:not(.hamburger) {
+  display: none;
+}
+
+nav ul li.hamburger {
+  display: inline-block;
+  transform: scale(1.50);
+}
+
+div.hamburger-menu {
+  width: 100vw;
+  height: 100vh;
+  background-color: black;
+  opacity: 0.9;
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  left: -100vw;
+}
+
+div.hamburger-menu ul li a {
+  padding: 10px;
+  color: red;
+}
+
 
 
 .login-panel {
@@ -190,8 +215,18 @@ nav ul li.logout a:hover {
   font-size: 120%;
 }
 
-.register form > div {
+.register form>div {
   margin-bottom: 15px;
+}
+
+@media (min-width: 800px){
+  nav ul li:not(.hamburger){
+    display: inline-block;
+  }
+
+  nav ul li.hamburger {
+    display: none;
+  }
 }
 
 @media (max-width: 500px) {

@@ -11,12 +11,14 @@ import Buscar from "./componentes/Buscar"
 import Categorias from './componentes/Categorias';
 import Unete from "./componentes/unete/Unete"
 import "@fortawesome/fontawesome-free/css/all.min.css"
+import $ from "jquery"
 
 function App() {
 
   const [nav, setNav] = useState(true)
   const [footer, setFooter] = useState(true)
   const [token, setToken] = useState(localStorage.getItem("token") || "")
+  const [menuOpen, setMenuOpen] = useState(false)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -27,21 +29,40 @@ function App() {
       navigate("/login")
   }, [token])
 
+  useEffect(() => {
+    if (menuOpen)
+      $(".hamburger-menu").animate({ left: "0vw" })
+    else
+      $(".hamburger-menu").animate({ left: "-100vw" })
+  }, [menuOpen])
+
   return (
     <div className="App">
-      {nav && <nav>
-        <div className='container'>
+      {nav && <>
+        <div className='hamburger-menu'>
           <ul>
-            <li><NavLink to="/login">Login</NavLink></li>
-            <li><NavLink activeclassname="active" to="/inicio">Inicio</NavLink></li>
-            <li><NavLink activeclassname="active" to="/categorias">Categorías</NavLink></li>
-            <li><NavLink activeclassname="active" to="/buscar">Buscar</NavLink></li>
-            <li className='ms-auto logout'><a href='#' onClick={() => setToken("")}>Salir <i className="fa-solid fa-arrow-right-from-bracket"></i></a></li>
+            <li><NavLink to="/"><i className="fa-solid fa-xmark"></i></NavLink></li>
+            <li><NavLink to="/inicio">Inicio</NavLink></li>
+            <li><NavLink to="/inicio">Categorias</NavLink></li>
+            <li><NavLink to="/inicio">Salir</NavLink></li>
           </ul>
         </div>
-      </nav>}
+        <nav>
+          <div className='container'>
+            <ul>
+              <li className='hamburger'><a href='#' onClick={() => setMenuOpen(!menuOpen)}><i className="fa-solid fa-bars"></i></a></li>
+              <li><NavLink to="/login">Login</NavLink></li>
+              <li><NavLink activeclassname="active" to="/inicio">Inicio</NavLink></li>
+              <li><NavLink activeclassname="active" to="/categorias">Categorías</NavLink></li>
+              <li><NavLink activeclassname="active" to="/buscar">Buscar</NavLink></li>
+              <li className='ms-auto logout'><a href='#' onClick={() => setToken("")}>Salir <i className="fa-solid fa-arrow-right-from-bracket"></i></a></li>
+            </ul>
+          </div>
+        </nav>
+      </>}
       <main>
         <Routes>
+          <Route path='/' element={<Navigate to="/login" replace={true} />}></Route>
           <Route path='/login' element={<Login token={token} setToken={setToken} setFooter={setFooter} setNav={setNav} />} />
           <Route path='/inicio' element={(token ? <Inicio token={token} /> : <Navigate to="/login" replace={true} />)} />
           <Route path='/pelicula/:id' element={(token ? <Pelicula token={token} /> : <Navigate to="/login" replace={true} />)} />
