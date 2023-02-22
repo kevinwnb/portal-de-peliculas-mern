@@ -16,12 +16,16 @@ nav {
   background-color: rgba(0, 0, 0, 0.9);
   width: 100%;
   z-index: 2;
+  display: flex;
+  justify-content: center;
 }
 
 nav ul {
   padding: 0 1vw;
   margin: 0;
   display: flex;
+  width: 100%;
+  justify-content: center;
 }
 
 nav ul li {
@@ -48,6 +52,11 @@ nav ul li a.active {
   color: mediumseagreen;
 }
 
+nav ul li.logout {
+  position: absolute;
+  right: 0;
+}
+
 nav ul li.logout a:hover {
   color: red;
 }
@@ -58,6 +67,8 @@ nav ul li:not(.hamburger) {
 
 nav ul li.hamburger {
   display: inline-block;
+  margin-right: auto;
+  margin-left: 20px;
 }
 
 nav ul li.hamburger button {
@@ -296,7 +307,7 @@ div.hamburger-menu ul li.logout a:hover {
   margin-bottom: 15px;
 }
 
-@media (min-width: 800px) {
+@media (min-width: 985px) {
   nav ul li:not(.hamburger) {
     display: inline-block;
   }

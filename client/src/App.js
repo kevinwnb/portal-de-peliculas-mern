@@ -74,16 +74,15 @@ function App() {
           </ul>
         </div>
         <nav>
-          <div className='container'>
             <ul>
               <li className='hamburger'><button onClick={() => openMenu()}><i className="fa-solid fa-bars"></i></button></li>
               <li><NavLink to="/login">Login</NavLink></li>
               <li><NavLink activeclassname="active" to="/inicio">Inicio</NavLink></li>
               <li><NavLink activeclassname="active" to="/categorias">Categorías</NavLink></li>
-              <li><NavLink activeclassname="active" to="/buscar">Buscar</NavLink></li>
-              <li className='ms-auto logout'><a href='#' onClick={() => setToken("")}>Salir <i className="fa-solid fa-arrow-right-from-bracket"></i></a></li>
+              <li><NavLink activeclassname="active" to="/buscar">Estrenos</NavLink></li>
+              <li><NavLink activeclassname="active" to="/buscar">Populares</NavLink></li>
+              <li className='logout'><a href='#' onClick={() => setToken("")}>Salir <i className="fa-solid fa-arrow-right-from-bracket"></i></a></li>
             </ul>
-          </div>
         </nav>
       </>}
       <main>
