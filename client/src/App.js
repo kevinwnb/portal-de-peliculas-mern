@@ -18,35 +18,35 @@ function App() {
   const [nav, setNav] = useState(true)
   const [footer, setFooter] = useState(true)
   const [token, setToken] = useState(localStorage.getItem("token") || "")
-  const [menuOpen, setMenuOpen] = useState(false)
   const navigate = useNavigate()
 
   useEffect(() => {
     localStorage.setItem("token", token)
-    if (token)
-      navigate("/inicio")
-    else
-      navigate("/login")
   }, [token])
 
-  useEffect(() => {
-    if (menuOpen) {
-      $("body").css({ "overflow-y": "hidden" })
-      $(".hamburger-menu").animate({ left: "0vw" }, 300)
-    }
-    else {
-      $(".hamburger-menu").animate({ left: "-100vw" }, 300, function(){
-        $("body").css({ "overflow-y": "scroll" })
-      })
-    }
-  }, [menuOpen])
+  let st = 0
+
+  const openMenu = () => {
+    st = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0
+    let scrollTop = "-" + st + "px"
+    document.querySelector("body").classList.add("lock-scroll")
+    $("body").css({ top: scrollTop })
+    $(".hamburger-menu").animate({ left: "0vw" }, 300)
+  }
+
+  const closeMenu = () => {
+    $(".hamburger-menu").animate({ left: "-100vw" }, 300, function () {
+      document.querySelector("body").classList.remove("lock-scroll")
+      window.scrollTo({top:st, behavior:"instant"})
+    })
+  }
 
   return (
     <div className="App">
       {nav && <>
         <div className='hamburger-menu'>
           <ul>
-            <li className='ms-auto'><button className='xclose' onClick={() => setMenuOpen(!menuOpen)}><i className="fa-solid fa-xmark"></i></button></li>
+            <li className='ms-auto'><button className='xclose' onClick={() => closeMenu()}><i className="fa-solid fa-xmark"></i></button></li>
             <li><NavLink to="/inicio">Inicio</NavLink></li>
             <li><NavLink to="/inicio">Categorias</NavLink></li>
             <li><NavLink to="/inicio">Salir</NavLink></li>
@@ -67,7 +67,7 @@ function App() {
         <nav>
           <div className='container'>
             <ul>
-              <li className='hamburger'><button href='' onClick={() => setMenuOpen(!menuOpen)}><i className="fa-solid fa-bars"></i></button></li>
+              <li className='hamburger'><button onClick={() => openMenu()}><i className="fa-solid fa-bars"></i></button></li>
               <li><NavLink to="/login">Login</NavLink></li>
               <li><NavLink activeclassname="active" to="/inicio">Inicio</NavLink></li>
               <li><NavLink activeclassname="active" to="/categorias">Categorías</NavLink></li>

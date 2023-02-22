@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react"
-import { Link } from "react-router-dom"
-import Cookies from "universal-cookie"
+import { Link, useNavigate } from "react-router-dom"
+import Cookies from "js-cookie"
 
 function Login(props) {
-    const cookies = new Cookies()
-    const [email, setEmail] = useState(cookies.get("email") || "")
-    const [password, setPassword] = useState(cookies.get("password") || "")
+    const [email, setEmail] = useState(Cookies.get("email") || "")
+    const [password, setPassword] = useState(Cookies.get("password") || "")
     const [validateEmail, setValidateEmail] = useState("")
-    const [recordarme, setRecordarme] = useState(cookies.get("recordarme") === 'true' || false)
+    const [recordarme, setRecordarme] = useState(Cookies.get("recordarme") === 'true' || false)
+    const navigate = useNavigate()
 
     useEffect(() => {
         props.setNav(false)
         props.setFooter(false)
 
-        console.log(JSON.stringify(cookies.getAll()))
+        console.log(JSON.stringify(Cookies.get()))
 
         return () => [props.setNav(true), props.setFooter(true)]
     }, [])
@@ -38,40 +38,22 @@ function Login(props) {
 
                 if (data.token) {
                     if (recordarme) {
-                        if (!cookies.get("email"))
-                            cookies.set("email", email, {
-                                path: "/login",
-                                maxAge: 60 * 60 * 24 * 365
-                            })
-
-                        if (!cookies.get("password"))
-                            cookies.set("password", password, {
-                                path: "/login",
-                                maxAge: 60 * 60 * 24 * 365
-                            })
-
-                        if (!cookies.get("recordarme"))
-                            cookies.set("recordarme", recordarme, {
-                                path: "/login",
-                                maxAge: 60 * 60 * 24 * 365
-                            })
+                        if (!Cookies.get("email"))
+                            Cookies.set("email", email)
+                        if (!Cookies.get("password"))
+                            Cookies.set("password", password)
+                        if (!Cookies.get("recordarme"))
+                            Cookies.set("recordarme", recordarme)
                     }
                     else {
-                        cookies.set("email", "", {
-                            path: "/login",
-                            maxAge: 0
-                        })
-                        cookies.set("password", "", {
-                            path: "/login",
-                            maxAge: 0
-                        })
-                        cookies.set("recordarme", "", {
-                            path: "/login",
-                            maxAge: 0
-                        })
+                        Cookies.remove("email")
+                        Cookies.remove("password")
+                        Cookies.remove("recordarme")
                     }
 
-                    return props.setToken(data.token)
+                    props.setToken(data.token)
+                    
+                    return navigate("/inicio")
                 }
             })
     }
