@@ -30,10 +30,15 @@ function App() {
   }, [token])
 
   useEffect(() => {
-    if (menuOpen)
-      $(".hamburger-menu").animate({ left: "0vw" })
-    else
-      $(".hamburger-menu").animate({ left: "-100vw" })
+    if (menuOpen) {
+      $("body").css({ "overflow-y": "hidden" })
+      $(".hamburger-menu").animate({ left: "0vw" }, 300)
+    }
+    else {
+      $(".hamburger-menu").animate({ left: "-100vw" }, 300, function(){
+        $("body").css({ "overflow-y": "scroll" })
+      })
+    }
   }, [menuOpen])
 
   return (
@@ -41,7 +46,19 @@ function App() {
       {nav && <>
         <div className='hamburger-menu'>
           <ul>
-            <li><NavLink to="/"><i className="fa-solid fa-xmark"></i></NavLink></li>
+            <li className='ms-auto'><button className='xclose' onClick={() => setMenuOpen(!menuOpen)}><i className="fa-solid fa-xmark"></i></button></li>
+            <li><NavLink to="/inicio">Inicio</NavLink></li>
+            <li><NavLink to="/inicio">Categorias</NavLink></li>
+            <li><NavLink to="/inicio">Salir</NavLink></li>
+            <li><NavLink to="/inicio">Inicio</NavLink></li>
+            <li><NavLink to="/inicio">Categorias</NavLink></li>
+            <li><NavLink to="/inicio">Salir</NavLink></li>
+            <li><NavLink to="/inicio">Inicio</NavLink></li>
+            <li><NavLink to="/inicio">Categorias</NavLink></li>
+            <li><NavLink to="/inicio">Salir</NavLink></li>
+            <li><NavLink to="/inicio">Inicio</NavLink></li>
+            <li><NavLink to="/inicio">Categorias</NavLink></li>
+            <li><NavLink to="/inicio">Salir</NavLink></li>
             <li><NavLink to="/inicio">Inicio</NavLink></li>
             <li><NavLink to="/inicio">Categorias</NavLink></li>
             <li><NavLink to="/inicio">Salir</NavLink></li>
@@ -50,7 +67,7 @@ function App() {
         <nav>
           <div className='container'>
             <ul>
-              <li className='hamburger'><a href='#' onClick={() => setMenuOpen(!menuOpen)}><i className="fa-solid fa-bars"></i></a></li>
+              <li className='hamburger'><button href='' onClick={() => setMenuOpen(!menuOpen)}><i className="fa-solid fa-bars"></i></button></li>
               <li><NavLink to="/login">Login</NavLink></li>
               <li><NavLink activeclassname="active" to="/inicio">Inicio</NavLink></li>
               <li><NavLink activeclassname="active" to="/categorias">Categorías</NavLink></li>

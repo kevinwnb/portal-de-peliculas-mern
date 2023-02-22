@@ -1,5 +1,6 @@
 body {
   overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 nav {
@@ -54,19 +55,40 @@ nav ul li.hamburger {
 }
 
 div.hamburger-menu {
-  width: 100vw;
+  width: 100%;
   height: 100vh;
-  background-color: black;
-  opacity: 0.9;
-  position: absolute;
+  background-color: rgba(0, 0, 0, 0.9);
+  position: fixed;
   z-index: 3;
   top: 0;
   left: -100vw;
+  overflow-y: scroll;
+}
+
+div.hamburger-menu ul {
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  width: 100%;
+}
+
+div.hamburger-menu ul li {
+  margin: 7px 0;
 }
 
 div.hamburger-menu ul li a {
   padding: 10px;
-  color: red;
+  color: black;
+  background-color: white;
+  display: block;
+}
+
+div.hamburger-menu ul li button.xclose {
+  border: none;
+  font-size: 150%;
+  width: 45px;
+  height: 45px;
 }
 
 
@@ -219,8 +241,8 @@ div.hamburger-menu ul li a {
   margin-bottom: 15px;
 }
 
-@media (min-width: 800px){
-  nav ul li:not(.hamburger){
+@media (min-width: 800px) {
+  nav ul li:not(.hamburger) {
     display: inline-block;
   }
 
