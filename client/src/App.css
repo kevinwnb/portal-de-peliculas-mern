@@ -5,7 +5,7 @@ body {
 }
 
 body.lock-scroll {
-  overflow-y: scroll!important;
+  overflow-y: scroll !important;
   position: fixed;
 }
 
@@ -86,9 +86,7 @@ div.hamburger-menu ul {
   width: 100%;
 }
 
-div.hamburger-menu ul li {
-  
-}
+div.hamburger-menu ul li {}
 
 div.hamburger-menu ul li a {
   padding: 10px 5px;
@@ -154,9 +152,21 @@ div.hamburger-menu ul li.logout a:hover {
   background-position: center;
 }
 
+.favoritas {
+  justify-content: space-around;
+}
+
+.titulo-apartado {
+  background-color: #eeeeee;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 50px;
+}
+
 .favoritas>div {
   width: 25%;
   padding: 1vw;
+  max-width: 220px;
   position: relative;
   overflow: hidden;
 }
@@ -282,9 +292,16 @@ div.hamburger-menu ul li.logout a:hover {
   }
 }
 
-@media (max-width: 500px) {
+@media (max-width: 600px) {
   .favoritas>div {
     width: 50%;
+  }
+}
+
+@media (max-width: 450px) {
+  .favoritas>div {
+    width: 100%;
+    margin-bottom: 50px;
   }
 }
 

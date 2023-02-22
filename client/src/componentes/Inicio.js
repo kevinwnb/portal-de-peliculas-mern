@@ -17,7 +17,7 @@ function Inicio(props) {
     return (<>
         <div className='contenido'>
             <div className="container">
-                <h6 className="display-6">Favoritas</h6>
+                <h6 className="titulo-apartado text-center text-md-start display-6">Favoritas</h6>
                 <div className="favoritas d-flex flex-wrap">
                     <div>
                         <Link to="/pelicula/1">
@@ -32,21 +32,21 @@ function Inicio(props) {
                     <div><div><img src={Fast} /><h5>Fast</h5></div></div>
                     <div><div><img src={FreeGuy} /><h5>Free Guy</h5></div></div>
                 </div>
-                <h6 className="display-6 mt-5">Recomendaciones</h6>
+                <h6 className="titulo-apartado display-6 mt-5">Recomendaciones</h6>
                 <div className="favoritas d-flex flex-wrap">
                     <div><div><img src={Marea} /><h5>Marea</h5></div></div>
                     <div><div><img src={Menu} /><h5>Menu</h5></div></div>
                     <div><div><img src={Mortadelo} /><h5>Mortadelo</h5></div></div>
                     <div><div><img src={Policias} /><h5>Policias</h5></div></div>
                 </div>
-                <h6 className="display-6 mt-5">Populares</h6>
+                <h6 className="titulo-apartado display-6 mt-5">Populares</h6>
                 <div className="favoritas d-flex flex-wrap">
                     <div><div><img src={Rampage} /><h5>Rampage</h5></div></div>
                     <div><div><img src={Smile} /><h5>Smile</h5></div></div>
                     <div><div><img src={Venus} /><h5>Venus</h5></div></div>
                     <div><div><img src={Wakanda} /><h5>Wakanda</h5></div></div>
                 </div>
-                <h6 className="display-6 mt-5">Más Películas</h6>
+                <h6 className="titulo-apartado display-6 mt-5">Más Películas</h6>
                 <div className="favoritas d-flex flex-wrap">
                     <div>
                         <Link to="/pelicula/1">
