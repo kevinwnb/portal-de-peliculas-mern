@@ -93,12 +93,26 @@ div.hamburger-menu ul li a {
   color: #c0c0c0;
   font-size: 120%;
   text-decoration: none;
-  display: block;
+  display: flex;
+  width: 100%;
+  align-items: center;
 }
 
 div.hamburger-menu ul li a:hover {
   color: white;
 }
+
+div.hamburger-menu ul li a i {
+  display: flex;
+  width: 20%;
+}
+
+div.hamburger-menu ul li a span {
+  display: flex;
+  width: 80%;
+}
+
+
 
 div.hamburger-menu ul li button.xclose {
   border: none;

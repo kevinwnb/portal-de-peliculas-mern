@@ -41,15 +41,24 @@ function App() {
     })
   }
 
+  const logout = () => {
+    $(".hamburger-menu").animate({ left: "-320px" }, 300, function () {
+      document.querySelector("body").classList.remove("lock-scroll")
+      window.scrollTo({ top: st, behavior: "instant" })
+      setToken("")
+    })
+  }
+
   return (
     <div className="App">
       {nav && <>
         <div className='hamburger-menu'>
           <ul>
             <li className='ms-auto mb-5'><button className='xclose' onClick={() => closeMenu()}><i className="fa-solid fa-xmark"></i></button></li>
-            <li><NavLink to="/inicio"><i className="fa-solid fa-house me-3"></i> Inicio</NavLink></li>
-            <li><NavLink to="/inicio"><i className="fa-solid fa-list me-3"></i> Categorias</NavLink></li>
-            <li className='logout'><NavLink to="#" onClick={() => setToken("")}><i className="fa-solid fa-arrow-right-from-bracket me-3"></i> Salir</NavLink></li>
+            <li><NavLink to="/inicio"><i className="fa-solid fa-house"></i> <span>Inicio</span></NavLink></li>
+            <li><NavLink to="/inicio"><i className="fa-solid fa-list"></i> <span>Categorias</span></NavLink></li>
+            <li><NavLink to="/inicio"><i className="fa-solid fa-fire"></i> <span>Más Populares</span></NavLink></li>
+            <li className='logout'><a href="" onClick={(e) => { e.preventDefault(); logout() }}><i className="fa-solid fa-arrow-right-from-bracket"></i> <span>Salir</span></a></li>
             <li><NavLink to="/inicio">Inicio</NavLink></li>
             <li><NavLink to="/inicio">Categorias</NavLink></li>
             <li><NavLink to="/inicio">Salir</NavLink></li>
