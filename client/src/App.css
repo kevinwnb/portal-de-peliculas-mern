@@ -36,10 +36,10 @@ nav ul li {
 nav ul li a {
   text-decoration: none;
   color: white;
-  font-weight: bold;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   padding: 5px;
-  margin: 0px 10px 0 0;
+  font-weight: bold;
+  margin: 0px 15px 0 0;
   transition: color 0.2s;
   font-size: 1.25rem;
 }
@@ -53,8 +53,7 @@ nav ul li a.active {
 }
 
 nav ul li.logout {
-  position: absolute;
-  right: 0;
+  
 }
 
 nav ul li.logout a:hover {
