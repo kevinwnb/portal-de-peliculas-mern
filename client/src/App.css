@@ -58,17 +58,23 @@ nav ul li:not(.hamburger) {
 
 nav ul li.hamburger {
   display: inline-block;
-  transform: scale(1.50);
+}
+
+nav ul li.hamburger button {
+  transform: scale(1.70);
+  background-color: transparent;
+  color: white;
+  border: none;
 }
 
 div.hamburger-menu {
-  width: 100%;
+  width: 320px;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.9);
+  background-color: black;
   position: fixed;
   z-index: 3;
   top: 0;
-  left: -100vw;
+  left: -320px;
   overflow-y: scroll;
 }
 
@@ -81,21 +87,39 @@ div.hamburger-menu ul {
 }
 
 div.hamburger-menu ul li {
-  margin: 7px 0;
+  
 }
 
 div.hamburger-menu ul li a {
-  padding: 10px;
-  color: black;
-  background-color: white;
+  padding: 10px 5px;
+  color: #c0c0c0;
+  font-size: 120%;
+  text-decoration: none;
   display: block;
+}
+
+div.hamburger-menu ul li a:hover {
+  color: white;
 }
 
 div.hamburger-menu ul li button.xclose {
   border: none;
   font-size: 150%;
-  width: 45px;
-  height: 45px;
+  width: 30px;
+  height: 30px;
+  background-color: #c0c0c0;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+div.hamburger-menu ul li button.xclose:hover {
+  background-color: white;
+}
+
+div.hamburger-menu ul li.logout a:hover {
+  color: red;
 }
 
 
