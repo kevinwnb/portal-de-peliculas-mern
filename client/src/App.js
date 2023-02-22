@@ -46,7 +46,7 @@ function App() {
       {nav && <>
         <div className='hamburger-menu'>
           <ul>
-            <li className='ms-auto'><button className='xclose' onClick={() => closeMenu()}><i className="fa-solid fa-xmark"></i></button></li>
+            <li className='ms-auto mb-5'><button className='xclose' onClick={() => closeMenu()}><i className="fa-solid fa-xmark"></i></button></li>
             <li><NavLink to="/inicio"><i className="fa-solid fa-house me-3"></i> Inicio</NavLink></li>
             <li><NavLink to="/inicio"><i className="fa-solid fa-list me-3"></i> Categorias</NavLink></li>
             <li className='logout'><NavLink to="#" onClick={() => setToken("")}><i className="fa-solid fa-arrow-right-from-bracket me-3"></i> Salir</NavLink></li>
