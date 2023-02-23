@@ -4,7 +4,7 @@ import { useState } from "react"
 const CrearPelicula = () => {
 
     const [name, setName] = useState("")
-    const [year, setYear] = useState(0)
+    const [date, setDate] = useState("")
     const [genre, setGenre] = useState(0)
 
     const genres = "acción;aventuras;comedia;drama;documental;familiar;fantasía;terror;romance;ciencia ficción;suspense;anime;guerra;deportes;crimen"
@@ -23,8 +23,8 @@ const CrearPelicula = () => {
                     <select className="input" type="text" id="genre" value={genre} onChange={e => setGenre(e.target.value)}>
                         {(genres.split(";").map((value, index) => <option value={index}>{capitalizeFirstLetter(value)}</option>))}
                     </select>
-                    <label htmlFor="year">Año</label>
-                    <input className="input" type="text" id="year" value={year} onChange={e => setYear(e.target.value)} />
+                    <label htmlFor="date">Fecha de estreno</label>
+                    <input className="input" type="date" id="date" value={date} onChange={e => setDate(e.target.value)} />
                 </form>
             </div>
         </>
