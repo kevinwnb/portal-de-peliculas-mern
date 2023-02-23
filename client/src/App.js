@@ -80,7 +80,7 @@ function App() {
               <li><NavLink to="/login">Login</NavLink></li>
               <li><NavLink activeclassname="active" to="/inicio"><i className="fa-solid fa-house"></i> Inicio</NavLink></li>
               <li><NavLink activeclassname="active" to="/categorias"><i className="fa-solid fa-list"></i> Categorías</NavLink></li>
-              <li><NavLink activeclassname="active" to="/buscar"><i class="fa-solid fa-film"></i> Estrenos</NavLink></li>
+              <li><NavLink activeclassname="active" to="/buscar"><i className="fa-solid fa-film"></i> Estrenos</NavLink></li>
               <li><NavLink activeclassname="active" to="/buscar"><i className="fa-solid fa-fire"></i> Populares</NavLink></li>
               <li className='logout'><a href='#' onClick={() => setToken("")}>Salir <i className="fa-solid fa-arrow-right-from-bracket"></i></a></li>
             </ul>

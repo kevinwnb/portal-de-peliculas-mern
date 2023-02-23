@@ -30,6 +30,8 @@ const Login = (props) => {
 
                 if (data.token) {
                     props.setToken(data.token)
+                    Cookies.remove("admin-token")
+                    Cookies.set("admin-token", data.token)
 
                     return navigate("/admin/dashboard", { replace: true })
                 }

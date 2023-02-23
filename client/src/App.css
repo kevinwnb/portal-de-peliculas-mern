@@ -322,6 +322,21 @@ div.hamburger-menu ul li.logout a:hover {
   color: white;
 }
 
+
+
+.dashboard {
+  display: flex;
+  justify-content: center;
+}
+
+.dashboard .item {
+  padding: 50px;
+  margin: 10px;
+  background-color: aquamarine;
+  color: black;
+  border: 1px solid black;
+}
+
 @media (min-width: 985px) {
   nav ul li:not(.hamburger) {
     display: inline-block;
