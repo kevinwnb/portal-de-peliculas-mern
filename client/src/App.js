@@ -12,6 +12,7 @@ import Categorias from './componentes/Categorias';
 import Unete from "./componentes/unete/Unete"
 import "@fortawesome/fontawesome-free/css/all.min.css"
 import $ from "jquery"
+import Admin from './componentes/admin/Admin';
 
 function App() {
 
@@ -56,7 +57,7 @@ function App() {
           <ul>
             <li className='ms-auto mb-5'><button className='xclose' onClick={() => closeMenu()}><i className="fa-solid fa-xmark"></i></button></li>
             <li><NavLink to="/inicio"><i className="fa-solid fa-house"></i> <span>Inicio</span></NavLink></li>
-            <li><NavLink to="/inicio"><i className="fa-solid fa-list"></i> <span>Categorias</span></NavLink></li>
+            <li><NavLink to="/categorias"><i className="fa-solid fa-list"></i> <span>Categorias</span></NavLink></li>
             <li><NavLink to="/inicio"><i className="fa-solid fa-fire"></i> <span>Más Populares</span></NavLink></li>
             <li className='logout'><a href="" onClick={(e) => { e.preventDefault(); logout() }}><i className="fa-solid fa-arrow-right-from-bracket"></i> <span>Salir</span></a></li>
             <li><NavLink to="/inicio">Inicio</NavLink></li>
@@ -95,6 +96,7 @@ function App() {
           <Route path='/buscar' element={(token ? <Buscar token={token} /> : <Navigate to="/login" replace={true} />)} />
           <Route path='/categorias' element={(token ? <Categorias token={token} /> : <Navigate to="/login" replace={true} />)} />
           <Route path='/unete/*' element={<Unete setNav={setNav} setFooter={setFooter} />} />
+          <Route path='/admin/*' element={<Admin setNav={setNav} setFooter={setFooter} />} />
         </Routes>
       </main>
       {footer && <footer className='mt-5'>

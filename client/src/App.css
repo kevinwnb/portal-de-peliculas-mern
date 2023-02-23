@@ -306,6 +306,13 @@ div.hamburger-menu ul li.logout a:hover {
   margin-bottom: 15px;
 }
 
+
+
+.wrapper {
+  width: 80%;
+  max-width: 1000px;
+}
+
 @media (min-width: 985px) {
   nav ul li:not(.hamburger) {
     display: inline-block;
