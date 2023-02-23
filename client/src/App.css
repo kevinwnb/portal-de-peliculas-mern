@@ -337,6 +337,14 @@ div.hamburger-menu ul li.logout a:hover {
   border: 1px solid black;
 }
 
+.crear-pelicula form {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 400px;
+}
+
 @media (min-width: 985px) {
   nav ul li:not(.hamburger) {
     display: inline-block;
