@@ -52,9 +52,7 @@ nav ul li a.active {
   color: mediumseagreen;
 }
 
-nav ul li.logout {
-  
-}
+nav ul li.logout {}
 
 nav ul li.logout a:hover {
   color: red;
@@ -152,7 +150,8 @@ div.hamburger-menu ul li.logout a:hover {
 }
 
 .login-panel .username,
-.login-panel .password {
+.login-panel .password,
+.input {
   padding: 5px;
   border: 1px solid black;
   font-size: 120%;
@@ -309,8 +308,18 @@ div.hamburger-menu ul li.logout a:hover {
 
 
 .wrapper {
-  width: 80%;
+  width: 90%;
   max-width: 1000px;
+  margin: 0 auto;
+}
+
+.admin-bg {
+  background-color: #eeeeee;
+}
+
+.admin .login-panel button {
+  background-color: black;
+  color: white;
 }
 
 @media (min-width: 985px) {

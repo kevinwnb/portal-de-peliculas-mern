@@ -17,6 +17,7 @@ const Admin = (props) => {
         <Routes>
             <Route path="/login" element={(token ? <Navigate to="/admin/dashboard" replace={true} /> : <Login token={token} setToken={setToken} />)} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="*" element={<Navigate to="/admin/login" replace={true} />} />
         </Routes>
     </>)
 }
