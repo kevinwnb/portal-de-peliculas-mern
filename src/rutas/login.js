@@ -1,5 +1,5 @@
 const router = require("express").Router()
-const { login, register, activateAccount, resendActivationCode } = require("../controladores/account")
+const { login, register, activateAccount, resendActivationCode } = require("../controladores/login")
 
 router.post("/login", login)
 router.post("/new", register)

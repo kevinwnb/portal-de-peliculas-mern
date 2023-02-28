@@ -1,0 +1,6 @@
+
+
+
+const crearPelicula = (req, res) => {
+    
+}

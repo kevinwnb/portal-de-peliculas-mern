@@ -21,7 +21,7 @@ function Login(props) {
     const login = e => {
         e.preventDefault()
         setValidateEmail("")
-        fetch("/api/account/login", {
+        fetch("/api/login/login", {
             method: "POST",
             headers: {
                 "content-type": "application/json"

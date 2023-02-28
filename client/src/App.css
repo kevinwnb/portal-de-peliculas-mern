@@ -337,7 +337,8 @@ div.hamburger-menu ul li.logout a:hover {
   border: 1px solid black;
 }
 
-.crear-pelicula form {
+.crear-pelicula form,
+.editar-pelicula form {
   display: flex;
   flex-direction: column;
   margin: 0 auto;
@@ -345,8 +346,50 @@ div.hamburger-menu ul li.logout a:hover {
   max-width: 400px;
 }
 
-.crear-pelicula form input, .crear-pelicula form select {
+.crear-pelicula form .grupo,
+form .grupo {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.crear-pelicula .image-preview {
+  width: 100%;
+  max-width: 200px;
+  display: flex;
+  margin: 0 auto;
   margin-bottom: 20px;
+}
+
+.crear-pelicula .image-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.crear-pelicula button {
+  background-color: mediumseagreen;
+  padding: 10px;
+}
+
+.crear-pelicula #image {
+  width: 100%;
+}
+
+.crear-pelicula button.eliminar {
+  color: red;
+  padding: 0;
+  background-color: transparent;
+  border: none;
+}
+
+.crear-pelicula button.eliminar:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.pb-100px {
+  padding-bottom: 100px;
 }
 
 @media (min-width: 985px) {

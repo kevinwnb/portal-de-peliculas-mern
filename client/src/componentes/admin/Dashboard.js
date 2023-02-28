@@ -9,7 +9,7 @@ const Dashboard = ()=>{
         <div className="dashboard">
             <Link className="item browse-movies" to="/inicio">Gestionar Peliculas</Link>
             <Link className="item add-movie" to="/admin/peliculas/crear">Añadir Película</Link>
-            <Link className="item edit-movie" to="/inicio">Editar Película</Link>
+            <Link className="item edit-movie" to="/admin/peliculas/editar/:id">Editar Película</Link>
         </div>
     </div>
     </>)

@@ -4,7 +4,7 @@ import { Navigate, Route, Routes, useNavigate } from "react-router-dom"
 import CrearPelicula from "./CrearPelicula"
 import Dashboard from "./Dashboard"
 import Login from "./Login"
-
+import EditarPelicula from './EditarPelicula'
 
 const Admin = (props) => {
     const [token, setToken] = useState(Cookies.get("admin-token") || "")
@@ -15,10 +15,6 @@ const Admin = (props) => {
         props.setFooter(false)
         console.log(Cookies.get("admin-token"))
     }, [])
-
-    useEffect(() => {
-        navigate("/admin/login", { replace: true })
-    }, [token])
 
     const logout = e => {
         Cookies.remove("admin-token")
@@ -32,8 +28,8 @@ const Admin = (props) => {
         <Routes>
             <Route path="/login" element={(token ? <Navigate to="/admin/dashboard" replace={true} /> : <Login token={token} setToken={setToken} />)} />
             <Route path="/dashboard" element={(token ? <Dashboard /> : <Navigate to="/admin/login" replace={true} />)} />
-            <Route path="/peliculas/crear" element={<CrearPelicula />} />
-            <Route path="/peliculas/editar/:id" element={<Navigate to="/admin/login" replace={true} />} />
+            <Route path="/peliculas/crear" element={token ? <CrearPelicula /> : <Navigate to="/admin/login" replace={true} />} />
+            <Route path="/peliculas/editar/:id" element={token ? <EditarPelicula /> : <Navigate to="/admin/login" replace={true} />} />
             <Route path="*" element={<Navigate to="/admin/login" replace={true} />} />
         </Routes>
     </>)
