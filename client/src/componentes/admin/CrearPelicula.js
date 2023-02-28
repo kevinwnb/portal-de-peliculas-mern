@@ -7,6 +7,7 @@ const CrearPelicula = props => {
     const [date, setDate] = useState("")
     const [genre, setGenre] = useState(0)
     const [image, setImage] = useState("")
+    const [rawImage, setRawImage] = useState("")
     const [subgenre, setSubgenre] = useState(0)
     const [nameValidation, setNameValidation] = useState("")
     const [genreValidation, setGenreValidation] = useState("")
@@ -37,6 +38,7 @@ const CrearPelicula = props => {
     genres = ["Seleccionar género", ...genres]
 
     const setImagePreview = e => {
+        setRawImage(e.target.files[0])
         let reader = new FileReader()
         reader.readAsDataURL(e.target.files[0])
         reader.addEventListener("load", () => {
@@ -81,12 +83,11 @@ const CrearPelicula = props => {
             formData.append("date", date)
             formData.append("genre", genre)
             formData.append("subgenre", subgenre)
-            formData.append("image", image)
-            fetch("/api/admin/peliculas", {
+            formData.append("image", rawImage)
+            fetch("/api/admin/pelicula", {
                 method: "POST",
                 headers: {
-                    Authorization: "Bearer " + props.token,
-                    "content-type": "multipart/form-data"
+                    Authorization: "Bearer " + props.token
                 },
                 body: formData
             })

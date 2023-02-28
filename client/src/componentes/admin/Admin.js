@@ -28,7 +28,7 @@ const Admin = (props) => {
         <Routes>
             <Route path="/login" element={(token ? <Navigate to="/admin/dashboard" replace={true} /> : <Login token={token} setToken={setToken} />)} />
             <Route path="/dashboard" element={(token ? <Dashboard /> : <Navigate to="/admin/login" replace={true} />)} />
-            <Route path="/peliculas/crear" element={token ? <CrearPelicula /> : <Navigate to="/admin/login" replace={true} />} />
+            <Route path="/peliculas/crear" element={token ? <CrearPelicula token={token} /> : <Navigate to="/admin/login" replace={true} />} />
             <Route path="/peliculas/editar/:id" element={token ? <EditarPelicula /> : <Navigate to="/admin/login" replace={true} />} />
             <Route path="*" element={<Navigate to="/admin/login" replace={true} />} />
         </Routes>
