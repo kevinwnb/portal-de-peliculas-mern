@@ -3,10 +3,22 @@ const fs = require("fs")
 const { v4: uuidv4 } = require("uuid")
 const path = require("path")
 
+const getPeliculas = (req, res) => {
+    Pelicula.find(function (err, peliculas) {
+        if (err)
+            return res.json({ error: err.message })
+
+        if (!peliculas)
+            return res.json({ error: "No se han encontrado películas" })
+
+        return res.json(peliculas)
+    })
+}
+
 const crearPelicula = (req, res) => {
     var oldpath = req.file.path;
-    console.log(req.file)
-    var newpath = path.resolve(__dirname, "../../uploads/", uuidv4() + path.extname(req.file.originalname));
+    let newfilename = uuidv4() + path.extname(req.file.originalname)
+    var newpath = path.resolve(__dirname, "../../uploads/", newfilename);
     fs.rename(oldpath, newpath, function (err) {
         if (err)
             return res.json({ error: err.message })
@@ -16,7 +28,7 @@ const crearPelicula = (req, res) => {
         pelicula.date = new Date(req.body.date)
         pelicula.genre = req.body.genre
         pelicula.subgenre = req.body.subgenre
-        pelicula.imgPath = newpath
+        pelicula.imgPath = "/uploads/" + newfilename
         pelicula.save(function (err) {
             if (err)
                 return res.json({ error: err.message })
@@ -26,4 +38,4 @@ const crearPelicula = (req, res) => {
     });
 }
 
-module.exports = { crearPelicula }
+module.exports = { getPeliculas, crearPelicula }

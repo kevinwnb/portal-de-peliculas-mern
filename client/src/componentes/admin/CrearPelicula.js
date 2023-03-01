@@ -16,28 +16,32 @@ const CrearPelicula = props => {
     const [subgenreValidation, setSubgenreValidation] = useState("")
     const [successMessage, setSuccessMessage] = useState("")
     const [errorMessage, setErrorMessage] = useState("")
+    const [genresList, setGenresList] = useState([])
 
     useEffect(() => {
-        //alert(document.querySelector("#date").value)
+        fetch("/api/admin/genero", {
+            method: "GET",
+            headers: {
+                Authorization: "Bearer " + props.token
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.error) {
+                    console.log(data.error)
+                    alert(1)
+                    return
+                }
+
+                setGenresList(data)
+            })
     }, [])
 
     useEffect(() => {
         if (genre === subgenre) {
-            setSubgenre(0)
+            setSubgenre("")
         }
     }, [genre])
-
-    let genres = "acción;aventuras;comedia;drama;documental;familiar;fantasía;terror;romance;ciencia ficción;suspense;anime;guerra;deportes;crimen"
-
-    genres = genres.split(";")
-
-    genres.sort((a, b) => a.localeCompare(b))
-
-    let subgenres = genres
-
-    subgenres = ["Seleccionar subgénero", ...subgenres]
-
-    genres = ["Seleccionar género", ...genres]
 
     const setImagePreview = e => {
         setRawImage(e.target.files[0])
@@ -48,11 +52,11 @@ const CrearPelicula = props => {
         })
     }
 
-    const resetForm = ()=>{
+    const resetForm = () => {
         setName("")
-        setGenre(0)
+        setGenre("")
         setDate("")
-        setSubgenre(0)
+        setSubgenre("")
         setImage("")
         setRawImage("")
     }
@@ -67,7 +71,7 @@ const CrearPelicula = props => {
         else
             setNameValidation("")
 
-        if (Number(genre) === 0) {
+        if (!genre) {
             setGenreValidation("Selecciona un género")
             errors++
         }
@@ -115,10 +119,6 @@ const CrearPelicula = props => {
         }
     }
 
-    const capitalizeFirstLetter = string => {
-        return string.charAt(0).toUpperCase() + string.slice(1);
-    }
-
     return (
         <>
             <div className="crear-pelicula wrapper contenido pb-100px">
@@ -134,14 +134,16 @@ const CrearPelicula = props => {
                     <div className="grupo">
                         <label htmlFor="genre">Género</label>
                         <select className="input" type="text" id="genre" value={genre} onChange={e => setGenre(e.target.value)}>
-                            {(genres.map((value, index) => <option key={index} value={index}>{capitalizeFirstLetter(value)}</option>))}
+                            <option value="">Selecciona un género</option>
+                            {(genresList.map((g, index) => <option key={index} value={g._id}>{g.name}</option>))}
                         </select>
                         {genreValidation && <small className="text-danger">{genreValidation}</small>}
                     </div>
                     <div className="grupo">
                         <label htmlFor="subgenre">Subgénero</label>
                         <select className="input" type="text" id="subgenre" value={subgenre} onChange={e => setSubgenre(e.target.value)}>
-                            {(subgenres.map((value, index) => index == 0 || index != genre ? <option key={index} value={index}>{capitalizeFirstLetter(value)}</option> : null))}
+                            <option value="">Selecciona un subgénero (opcional)</option>
+                            {(genresList.map((g, index) => g._id != genre ? <option key={index} value={g._id}>{g.name}</option> : null))}
                         </select>
                         {subgenreValidation && <small className="text-danger">{subgenreValidation}</small>}
                     </div>

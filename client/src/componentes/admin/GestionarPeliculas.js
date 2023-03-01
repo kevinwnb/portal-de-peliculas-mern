@@ -6,13 +6,26 @@ import { useEffect, useState } from "react"
 const GestionarPeliculas = props => {
 
     const [peliculas, setPeliculas] = useState([])
-
-    const genres = props.genres
+    const [genresList, setGenresList] = useState([])
 
     useEffect(() => {
-        fetch("/api/admin/genre", {
-            method: "GET"
+        fetch("/api/admin/genero", {
+            method: "GET",
+            headers: {
+                Authorization: "Bearer " + props.token
+            }
         })
+            .then(res => res.json())
+            .then(data => {
+                if (data.error) {
+                    console.log(data.error)
+                    alert(1)
+                    return
+                }
+
+                setGenresList(data)
+            })
+
         fetch("/api/admin/pelicula", {
             method: "GET",
             headers: {
@@ -24,27 +37,31 @@ const GestionarPeliculas = props => {
                 if (data.error)
                     return
 
-                setPeliculas(data.peliculas)
+                setPeliculas(data)
             })
     }, [])
 
     return (<>
         <div className="wrapper contenido pb-100px">
             <table>
-                <tr>
-                    <th>Portada</th>
-                    <th>Nombre</th>
-                    <th>F. Estreno</th>
-                    <th>Género</th>
-                    <th>Subgénero</th>
-                </tr>
-                {peliculas.map(p => <tr>
-                    <td>{p.image}</td>
-                    <td>{p.name}</td>
-                    <td>{p.date}</td>
-                    <td>{p.genre}</td>
-                    <td>{p.subgenre}</td>
-                </tr>)}
+                <thead>
+                    <tr>
+                        <th>Portada</th>
+                        <th>Nombre</th>
+                        <th>F. Estreno</th>
+                        <th>Género</th>
+                        <th>Subgénero</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {peliculas.map((p, index) => <tr key={index}>
+                        <td><img src={"http://localhost:5000" + p.imgPath} /></td>
+                        <td>{p.name}</td>
+                        <td>{p.date}</td>
+                        <td>{(genresList.find(g => g._id === p.genre).name)}</td>
+                        <td>{(genresList.find(g => g._id === p.subgenre).name)}</td>
+                    </tr>)}
+                </tbody>
             </table>
         </div>
     </>)
