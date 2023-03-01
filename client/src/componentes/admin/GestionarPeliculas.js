@@ -57,7 +57,7 @@ const GestionarPeliculas = props => {
                     {peliculas.map((p, index) => <tr key={index}>
                         <td><img src={"http://localhost:5000" + p.imgPath} /></td>
                         <td>{p.name}</td>
-                        <td>{p.date}</td>
+                        <td>{(new Date(p.date)).toLocaleDateString("es-ES", { day: "numeric", month: "numeric", year: "numeric" })}</td>
                         <td>{(genresList.find(g => g._id === p.genre).name)}</td>
                         <td>{(genresList.find(g => g._id === p.subgenre).name)}</td>
                     </tr>)}
