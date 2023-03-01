@@ -57,7 +57,7 @@ app.get("/api/generatedata", (req, res) => {
             let subgenre = genres.filter(g => g._id !== genre._id)[(getRandomInt(genres.length - 2) - 1)]
 
             let pelicula = new Pelicula()
-            pelicula.name = lorem.generateWords(getRandomInt(2))
+            pelicula.name = lorem.generateWords(getRandomInt(2) + 1)
             pelicula.date = randomDate(new Date(2012, 0, 1), new Date())
             pelicula.genre = genre._id
             pelicula.subgenre = subgenre._id
