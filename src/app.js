@@ -8,9 +8,10 @@ const mongoose = require("mongoose")
 const fs = require("fs")
 mongoose.connect('mongodb://127.0.0.1:27017/mynodeapp1');
 const generoRouter = require("./rutas/admin/genero")
+const path = require("path")
 
 app.use(express.json())
-app.use("/uploads", express.static("uploads"))
+app.use("/uploads", express.static(path.resolve(__dirname, "uploads")))
 app.use("/inicio", (req, res) => res.send("hello"))
 app.use("/api/peliculas", peliculasRouter)
 app.use("/api/login", loginRouter)

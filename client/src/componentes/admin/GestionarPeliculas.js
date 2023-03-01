@@ -42,8 +42,8 @@ const GestionarPeliculas = props => {
     }, [])
 
     return (<>
-        <div className="wrapper contenido pb-100px">
-            <table>
+        <div className="wrapper contenido gestionar-peliculas pb-100px">
+            <table className="table">
                 <thead>
                     <tr>
                         <th>Portada</th>

@@ -33,6 +33,7 @@ const CrearPelicula = props => {
                     return
                 }
 
+                data.sort((a, b) => a.name.localeCompare(b.name))
                 setGenresList(data)
             })
     }, [])
