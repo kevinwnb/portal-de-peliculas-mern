@@ -14,6 +14,8 @@ const CrearPelicula = props => {
     const [dateValidation, setDateValidation] = useState("")
     const [imageValidation, setImageValidation] = useState("")
     const [subgenreValidation, setSubgenreValidation] = useState("")
+    const [successMessage, setSuccessMessage] = useState("")
+    const [errorMessage, setErrorMessage] = useState("")
 
     useEffect(() => {
         //alert(document.querySelector("#date").value)
@@ -44,6 +46,15 @@ const CrearPelicula = props => {
         reader.addEventListener("load", () => {
             setImage(reader.result)
         })
+    }
+
+    const resetForm = ()=>{
+        setName("")
+        setGenre(0)
+        setDate("")
+        setSubgenre(0)
+        setImage("")
+        setRawImage("")
     }
 
     const crearPelicula = e => {
@@ -91,8 +102,16 @@ const CrearPelicula = props => {
                 },
                 body: formData
             })
-            .then(res => res.json())
-            .then(data => console.log(data))
+                .then(res => res.json())
+                .then(data => {
+                    if (data.error) {
+                        setErrorMessage("Error al crear la película")
+                        return
+                    }
+
+                    resetForm()
+                    setSuccessMessage("Película creada con éxito")
+                })
         }
     }
 
@@ -103,7 +122,10 @@ const CrearPelicula = props => {
     return (
         <>
             <div className="crear-pelicula wrapper contenido pb-100px">
+                <h6 className="display-6 text-center mb-5">Crear película</h6>
                 <form onSubmit={crearPelicula}>
+                    {successMessage && <p className="alert alert-success">{successMessage}</p>}
+                    {errorMessage && <p className="alert alert-danger">{errorMessage}</p>}
                     <div className="grupo">
                         <label htmlFor="name">Nombre de la película</label>
                         <input className="input" type="text" id="name" value={name} onChange={e => setName(e.target.value)} />

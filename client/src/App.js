@@ -21,6 +21,12 @@ function App() {
   const [token, setToken] = useState(localStorage.getItem("token") || "")
   const navigate = useNavigate()
 
+  let genres = "acción;aventuras;comedia;drama;documental;familiar;fantasía;terror;romance;ciencia ficción;suspense;anime;guerra;deportes;crimen"
+
+  genres = genres.split(";")
+
+  //genres.sort((a, b) => a.localeCompare(b))
+
   useEffect(() => {
     localStorage.setItem("token", token)
   }, [token])
@@ -75,15 +81,15 @@ function App() {
           </ul>
         </div>
         <nav>
-            <ul>
-              <li className='hamburger'><button onClick={() => openMenu()}><i className="fa-solid fa-bars"></i></button></li>
-              <li><NavLink to="/login">Login</NavLink></li>
-              <li><NavLink activeclassname="active" to="/inicio"><i className="fa-solid fa-house"></i> Inicio</NavLink></li>
-              <li><NavLink activeclassname="active" to="/categorias"><i className="fa-solid fa-list"></i> Categorías</NavLink></li>
-              <li><NavLink activeclassname="active" to="/buscar"><i className="fa-solid fa-film"></i> Estrenos</NavLink></li>
-              <li><NavLink activeclassname="active" to="/buscar"><i className="fa-solid fa-fire"></i> Populares</NavLink></li>
-              <li className='logout'><a href='#' onClick={() => setToken("")}>Salir <i className="fa-solid fa-arrow-right-from-bracket"></i></a></li>
-            </ul>
+          <ul>
+            <li className='hamburger'><button onClick={() => openMenu()}><i className="fa-solid fa-bars"></i></button></li>
+            <li><NavLink to="/login">Login</NavLink></li>
+            <li><NavLink activeclassname="active" to="/inicio"><i className="fa-solid fa-house"></i> Inicio</NavLink></li>
+            <li><NavLink activeclassname="active" to="/categorias"><i className="fa-solid fa-list"></i> Categorías</NavLink></li>
+            <li><NavLink activeclassname="active" to="/buscar"><i className="fa-solid fa-film"></i> Estrenos</NavLink></li>
+            <li><NavLink activeclassname="active" to="/buscar"><i className="fa-solid fa-fire"></i> Populares</NavLink></li>
+            <li className='logout'><a href='#' onClick={() => setToken("")}>Salir <i className="fa-solid fa-arrow-right-from-bracket"></i></a></li>
+          </ul>
         </nav>
       </>}
       <main>
@@ -96,7 +102,7 @@ function App() {
           <Route path='/buscar' element={(token ? <Buscar token={token} /> : <Navigate to="/login" replace={true} />)} />
           <Route path='/categorias' element={(token ? <Categorias token={token} /> : <Navigate to="/login" replace={true} />)} />
           <Route path='/unete/*' element={<Unete setNav={setNav} setFooter={setFooter} />} />
-          <Route path='/admin/*' element={<Admin setNav={setNav} setFooter={setFooter} />} />
+          <Route path='/admin/*' element={<Admin genres={genres} setNav={setNav} setFooter={setFooter} />} />
         </Routes>
       </main>
       {footer && <footer className='mt-5'>

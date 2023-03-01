@@ -332,9 +332,16 @@ div.hamburger-menu ul li.logout a:hover {
 .dashboard .item {
   padding: 50px;
   margin: 10px;
-  background-color: aquamarine;
+  background-color: #eeeeee;
   color: black;
-  border: 1px solid black;
+  text-decoration: none;
+  border: 2px solid black;
+  font-size: 120%;
+  font-weight: bold;
+}
+
+.dashboard .item:hover {
+  background-color: mediumseagreen;
 }
 
 .crear-pelicula form,
@@ -386,6 +393,23 @@ form .grupo {
 .crear-pelicula button.eliminar:hover {
   cursor: pointer;
   text-decoration: underline;
+}
+
+.admin-nav a {
+  margin: 0 10px;
+  text-decoration: none;
+  padding: 5px;
+  background-color: #c0c0c0;
+  color: black;
+}
+
+.admin-nav a:hover {
+  color: black;
+}
+
+.admin-nav .active {
+  background-color: white;
+  color: black;
 }
 
 .pb-100px {
