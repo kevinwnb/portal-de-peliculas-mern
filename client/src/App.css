@@ -429,6 +429,14 @@ form .grupo {
   min-width: 100px;
 }
 
+.gestionar-peliculas form input[type="checkbox"] {
+  margin-right: 7px;
+}
+
+.gestionar-peliculas form .input:disabled {
+  border: 1px solid #c0c0c0;
+}
+
 .pb-100px {
   padding-bottom: 100px;
 }
