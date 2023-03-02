@@ -27,7 +27,7 @@ const crearPelicula = (req, res) => {
         pelicula.name = req.body.name
         pelicula.date = new Date(req.body.date)
         pelicula.genre = req.body.genre
-        pelicula.subgenre = req.body.subgenre
+        pelicula.subgenre = req.body.subgenre || undefined
         pelicula.imgPath = "/uploads/" + newfilename
         pelicula.save(function (err) {
             if (err)

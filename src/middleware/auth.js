@@ -11,6 +11,9 @@ const auth = (req, res, next) => {
         if (err)
             return res.status(404).json({ error: "invalid token" })
 
+        if (decoded.role === "admin")
+            res.locals.role = "admin"
+
         console.log(decoded) // bar
     });
 

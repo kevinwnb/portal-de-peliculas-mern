@@ -23,7 +23,7 @@ const login = (req, res) => {
             //  return res.json({ error: "Esta cuenta está pendiente de activación" })
 
             if (result) {
-                let token = jwt.sign({ userId: user._id }, "1234", function (err, token) {
+                let token = jwt.sign({ userId: user._id, role: user.role }, "1234", function (err, token) {
                     if (err)
                         console.log(err)
 

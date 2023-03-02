@@ -425,6 +425,10 @@ form .grupo {
   vertical-align: middle;
 }
 
+.gestionar-peliculas form select {
+  min-width: 100px;
+}
+
 .pb-100px {
   padding-bottom: 100px;
 }
