@@ -412,6 +412,8 @@ form .grupo {
   color: black;
 }
 
+
+
 .gestionar-peliculas {
   overflow-x: scroll;
 }
@@ -435,6 +437,16 @@ form .grupo {
 
 .gestionar-peliculas form .input:disabled {
   border: 1px solid #c0c0c0;
+}
+
+.gestionar-peliculas form button[type="submit"] {
+  padding: 15px 25px;
+  background-color: #353535;
+  color: white;
+}
+
+.gestionar-peliculas form button[type="submit"]:hover {
+  background-color: black;
 }
 
 .pb-100px {

@@ -56,38 +56,43 @@ const GestionarPeliculas = props => {
     return (<>
         <div className="wrapper contenido gestionar-peliculas pb-100px">
             <h6 className="display-6 mb-5">Criterios de búsqueda</h6>
-            <form className="d-flex" onSubmit={e => searchPeliculas(e)}>
-                <div className="grupo mx-3">
-                    <label htmlFor="idSearchByString">
-                        <input type="checkbox" id="idSearchByString" onChange={e => setSearchByString(e.target.checked)} checked={searchByString} />
-                        Incluir término
-                    </label>
-                    <input className="input" disabled={!searchByString} type="text" id="idSearchString" minLength={4} placeholder="Criterio de búsqueda" />
+            <form onSubmit={e => searchPeliculas(e)}>
+                <div className="d-flex justify-content-center flex-column flex-lg-row">
+                    <div className="grupo mx-lg-3">
+                        <label htmlFor="idSearchByString">
+                            <input type="checkbox" id="idSearchByString" onChange={e => setSearchByString(e.target.checked)} checked={searchByString} />
+                            Incluir término
+                        </label>
+                        <input className="input" disabled={!searchByString} type="text" id="idSearchString" minLength={4} placeholder="Criterio de búsqueda" />
+                    </div>
+                    <div className="grupo mx-lg-3">
+                        <label htmlFor="idSearchByInitial">
+                            <input type="checkbox" id="idSearchByInitial" onChange={e => setSearchByInitial(e.target.checked)} checked={searchByInitial} />
+                            Letra inicial
+                        </label>
+                        <select className="input" disabled={!searchByInitial}>
+                            {[...abc].map((letter, index) => <option className="btn btn-link" value={letter} key={index}>{letter.toLocaleUpperCase()}</option>)}
+                        </select>
+                    </div>
+                    <div className="grupo mx-lg-3">
+                        <label htmlFor="idSearchByDate">
+                            <input id="idSearchByDate" type="checkbox" checked={searchByDate} onChange={e => setSearchByDate(e.target.checked)} />
+                            Fecha de estreno
+                        </label>
+                        <input className="input" disabled={!searchByDate} type="date" />
+                    </div>
+                    <div className="grupo mx-lg-3">
+                        <label htmlFor="idSearchByGenre">
+                            <input id="idSearchByGenre" type="checkbox" checked={searchByGenre} onChange={e => setSearchByGenre(e.target.checked)} />
+                            Género
+                        </label>
+                        <select className="input" disabled={!searchByGenre}>
+                            {genresList.map((g, index) => <option value={g._id} key={index}>{g.name}</option>)}
+                        </select>
+                    </div>
                 </div>
-                <div className="grupo mx-3">
-                    <label htmlFor="idSearchByInitial">
-                        <input type="checkbox" id="idSearchByInitial" onChange={e => setSearchByInitial(e.target.checked)} checked={searchByInitial} />
-                        Letra inicial
-                    </label>
-                    <select className="input" disabled={!searchByInitial}>
-                        {[...abc].map((letter, index) => <option className="btn btn-link" value={letter} key={index}>{letter.toLocaleUpperCase()}</option>)}
-                    </select>
-                </div>
-                <div className="grupo mx-3">
-                    <label htmlFor="idSearchByDate">
-                        <input id="idSearchByDate" type="checkbox" checked={searchByDate} onChange={e => setSearchByDate(e.target.checked)} />
-                        Fecha de estreno
-                    </label>
-                    <input className="input" disabled={!searchByDate} type="date" />
-                </div>
-                <div className="grupo mx-3">
-                    <label htmlFor="idSearchByGenre">
-                        <input id="idSearchByGenre" type="checkbox" checked={searchByGenre} onChange={e => setSearchByGenre(e.target.checked)} />
-                        Género
-                    </label>
-                    <select className="input" disabled={!searchByGenre}>
-                        {genresList.map((g, index) => <option value={g._id} key={index}>{g.name}</option>)}
-                    </select>
+                <div className="d-flex justify-content-center mt-3 mb-5">
+                    <button type="submit">BUSCAR</button>
                 </div>
             </form>
             <table className="table">
