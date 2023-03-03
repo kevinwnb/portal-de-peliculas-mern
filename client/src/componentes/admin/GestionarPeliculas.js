@@ -37,16 +37,16 @@ const GestionarPeliculas = props => {
 
                 setGenresList(data)
             })
-            
-            searchPeliculas()
+
+        searchPeliculas()
     }, [])
 
-    useEffect(()=>{
-        if(peliculas.length === 0){
-            fetchPeliculas(getCriteria(), 0, 10)
+    useEffect(() => {
+        if (peliculas.length === 0 && skip === 0) {
+            fetchPeliculas(getCriteria(), skip, 10)
             setSkip(s => s + 10)
         }
-    }, [peliculas])
+    }, [peliculas, skip])
 
     const fetchPeliculas = (criteria, skip, limit) => {
         let data = { ...criteria, skip: skip, limit: limit }
@@ -79,7 +79,7 @@ const GestionarPeliculas = props => {
         return criteria
     }
 
-    const searchPeliculas = async (e) => {
+    const searchPeliculas = (e) => {
         if (e)
             e.preventDefault()
 
@@ -91,9 +91,8 @@ const GestionarPeliculas = props => {
 
     }
 
-    const loadMore = async () => {
+    const loadMore = () => {
         fetchPeliculas(getCriteria(), skip, 10)
-
         setSkip(s => s + 10)
     }
 
