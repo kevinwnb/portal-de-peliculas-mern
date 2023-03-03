@@ -15,12 +15,31 @@ const getPeliculas = (req, res) => {
     })
 }
 
-const buscarPeliculas = (req, res) => {
-    const { searchString, letter, date, genre, subgenre } = req.body
-    const criteria = {
-        ...(searchString && { name: searchString })
+const buscarPeliculas = async (req, res) => {
+    const search = async (query, skip, limit) => {
+        let peliculas = await Pelicula.find(query).skip(skip).limit(limit).exec()
+        return peliculas
     }
-    return res.json(criteria)
+
+    const { searchString, initial, date, genre, subgenre } = req.body
+    let query = {
+        ...(searchString && { name: { $regex: '.*' + searchString + '.*' } }),
+        //...(initial && { name: {$regex : "^" + initial} }),
+        ...(date && { date: date }),
+        ...(genre && { genre: genre }),
+        ...(subgenre && { subgenre: subgenre })
+    }
+
+    let peliculas = await search(query, req.body.skip, req.body.limit).then(data => data)
+
+    if (initial) {
+        peliculas = peliculas.filter(p => p.name.substring(0, 1) === initial || initial.toLocaleUpperCase())
+    }
+
+    if (peliculas)
+        return res.json(peliculas)
+
+    return res.json({ error: "No se han encontrado películas" })
 }
 
 const crearPelicula = (req, res) => {

@@ -52,7 +52,23 @@ const GestionarPeliculas = props => {
             })
     }, [])
 
-    const searchPeliculas = e => {
+    const fetchPeliculas = async (criteria, skip, limit) => {
+        let data = { ...criteria, skip: skip, limit: limit }
+        const result = await fetch("/api/admin/pelicula/buscar", {
+            method: "POST",
+            headers: {
+                Authorization: "Bearer " + props.token,
+                "content-type": "application/json"
+            },
+            body: JSON.stringify(data)
+        })
+        .then(res => res.json())
+        .then(data => data)
+
+        return result
+    }
+
+    const searchPeliculas = async e => {
         e.preventDefault()
 
         let criteria = {
@@ -63,7 +79,9 @@ const GestionarPeliculas = props => {
             ...(searchBySubgenre && subgenre && { subgenre: subgenre })
         }
 
-        console.log(criteria)
+        let peliculas = await fetchPeliculas(criteria, 0, 0)
+
+        console.log(peliculas)
 
         if (searchString.length < 4)
             setValidateSearchString("Introduce al menos 4 caracteres")
