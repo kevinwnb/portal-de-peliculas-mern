@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
-import ReactPaginate from 'react-paginate';
+
+
 
 
 const GestionarPeliculas = props => {
@@ -17,7 +18,7 @@ const GestionarPeliculas = props => {
     const [date, setDate] = useState("")
     const [genre, setGenre] = useState("")
     const [subgenre, setSubgenre] = useState("")
-    const [items, setItems] = useState([])
+    const [skip, setSkip] = useState(0)
     const abc = "abcdefghijklmnñopqrstuvwxyz"
 
     useEffect(() => {
@@ -36,25 +37,20 @@ const GestionarPeliculas = props => {
 
                 setGenresList(data)
             })
-
-        fetch("/api/admin/pelicula", {
-            method: "GET",
-            headers: {
-                Authorization: "Bearer " + props.token,
-            }
-        })
-            .then(res => res.json())
-            .then(data => {
-                if (data.error)
-                    return
-
-                setItems(data)
-            })
+            
+            searchPeliculas()
     }, [])
 
-    const fetchPeliculas = async (criteria, skip, limit) => {
+    useEffect(()=>{
+        if(peliculas.length === 0){
+            fetchPeliculas(getCriteria(), 0, 10)
+            setSkip(s => s + 10)
+        }
+    }, [peliculas])
+
+    const fetchPeliculas = (criteria, skip, limit) => {
         let data = { ...criteria, skip: skip, limit: limit }
-        const result = await fetch("/api/admin/pelicula/buscar", {
+        fetch("/api/admin/pelicula/buscar", {
             method: "POST",
             headers: {
                 Authorization: "Bearer " + props.token,
@@ -63,9 +59,12 @@ const GestionarPeliculas = props => {
             body: JSON.stringify(data)
         })
             .then(res => res.json())
-            .then(data => data)
+            .then(data => {
+                if (data.error)
+                    console.log(data.error)
 
-        return result
+                setPeliculas([...peliculas, ...data])
+            })
     }
 
     const getCriteria = () => {
@@ -80,85 +79,22 @@ const GestionarPeliculas = props => {
         return criteria
     }
 
-    const searchPeliculas = async e => {
-        e.preventDefault()
+    const searchPeliculas = async (e) => {
+        if (e)
+            e.preventDefault()
 
-        let pelis = await fetchPeliculas(getCriteria(), 0, 100)
-
-        setItems(pelis)
+        setPeliculas([])
+        setSkip(0)
 
         if (searchString.length < 4)
             setValidateSearchString("Introduce al menos 4 caracteres")
 
     }
 
-    function Items({ currentItems }) {
-        return (
-            <>
-                {currentItems &&
-                    currentItems.map((p, index) => (
-                        <tr key={index}>
-                            <td><img src={"http://localhost:5000" + p.imgPath} /></td>
-                            <td>{p.name}</td>
-                            <td>{(new Date(p.date)).toLocaleDateString("es-ES", { day: "numeric", month: "numeric", year: "numeric" })}</td>
-                            <td>{(genresList.find(g => g._id === p.genre).name)}</td>
-                            <td>{p.subgenre && (genresList.find(g => g._id === p.subgenre).name) || "-"}</td>
-                        </tr>
-                    ))}
-            </>
-        );
-    }
+    const loadMore = async () => {
+        fetchPeliculas(getCriteria(), skip, 10)
 
-    function PaginatedItems({ itemsPerPage }) {
-        // Here we use item offsets; we could also use page offsets
-        // following the API or data you're working with.
-        const [itemOffset, setItemOffset] = useState(0);
-
-        // Simulate fetching items from another resources.
-        // (This could be items from props; or items loaded in a local state
-        // from an API endpoint with useEffect and useState)
-        const endOffset = itemOffset + itemsPerPage;
-        console.log(`Loading items from ${itemOffset} to ${endOffset}`);
-        const currentItems = items.slice(itemOffset, endOffset);
-        const pageCount = Math.ceil(items.length / itemsPerPage);
-
-        // Invoke when user click to request another page.
-        const handlePageClick = (event) => {
-            const newOffset = (event.selected * itemsPerPage) % items.length;
-            console.log(
-                `User requested page number ${event.selected}, which is offset ${newOffset}`
-            );
-            setItemOffset(newOffset);
-        };
-
-        return (
-            <>
-                <table className="table">
-                    <thead>
-                        <tr>
-                            <th>Portada</th>
-                            <th>Nombre</th>
-                            <th>F. Estreno</th>
-                            <th>Género</th>
-                            <th>Subgénero</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <Items currentItems={currentItems} />
-                    </tbody>
-                </table>
-                <ReactPaginate
-                    breakLabel="..."
-                    nextLabel="next >"
-                    onPageChange={handlePageClick}
-                    pageRangeDisplayed={5}
-                    pageCount={pageCount}
-                    previousLabel="< previous"
-                    renderOnZeroPageCount={null}
-                    containerClassName="pagination"
-                />
-            </>
-        );
+        setSkip(s => s + 10)
     }
 
     return (<>
@@ -214,8 +150,31 @@ const GestionarPeliculas = props => {
                     </div>
                 </div>
             </form>
-
-            <PaginatedItems itemsPerPage={10} />
+            <table className="table">
+                <thead>
+                    <tr>
+                        <th>Número</th>
+                        <th>Portada</th>
+                        <th>Nombre</th>
+                        <th>F. Estreno</th>
+                        <th>Género</th>
+                        <th>Subgénero</th>
+                    </tr>
+                </thead>
+                {peliculas.length > 0 && (<tbody>
+                    {peliculas.map((p, index) => <tr key={index}>
+                        <td>{index}</td>
+                        <td><img src={"http://localhost:5000" + p.imgPath} /></td>
+                        <td>{p.name}</td>
+                        <td>{(new Date(p.date)).toLocaleDateString("es-ES", { day: "numeric", month: "numeric", year: "numeric" })}</td>
+                        <td>{(genresList.find(g => g._id === p.genre).name)}</td>
+                        <td>{p.subgenre && (genresList.find(g => g._id === p.subgenre).name) || "-"}</td>
+                    </tr>)}
+                </tbody>)}
+            </table>
+            <div>
+                <button onClick={() => loadMore()}>+</button>
+            </div>
         </div>
     </>)
 }
