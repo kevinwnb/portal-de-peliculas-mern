@@ -427,6 +427,16 @@ form .grupo {
   vertical-align: middle;
 }
 
+.gestionar-peliculas form {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.gestionar-peliculas form > div {
+  flex-direction: column;
+}
+
 .gestionar-peliculas form select {
   min-width: 100px;
 }
@@ -444,6 +454,9 @@ form .grupo {
   padding: 15px 25px;
   background-color: #353535;
   color: white;
+  width: 100%;
+  text-align: center;
+  margin-top: auto;
 }
 
 .gestionar-peliculas form button[type="submit"]:hover {
@@ -452,6 +465,17 @@ form .grupo {
 
 .pb-100px {
   padding-bottom: 100px;
+}
+
+@media (min-width: 1085px){
+  .gestionar-peliculas form {
+    max-width: none;
+    margin: 0;
+  }
+
+  .gestionar-peliculas form > div {
+    flex-direction: row;
+  }
 }
 
 @media (min-width: 985px) {
