@@ -18,7 +18,11 @@ const GestionarPeliculas = props => {
     const [date, setDate] = useState("")
     const [genre, setGenre] = useState("")
     const [subgenre, setSubgenre] = useState("")
+    const [currentPage, setCurrentPage] = useState(1)
+    const [peliculasPortion, setPeliculasPortion] = useState([])
     const abc = "abcdefghijklmnñopqrstuvwxyz"
+
+    const itemsPerPage = 10
 
     useEffect(() => {
         fetch("/api/admin/genero", {
@@ -49,6 +53,7 @@ const GestionarPeliculas = props => {
                     return
 
                 setPeliculas(data)
+                turnPage(data, 0)
             })
     }, [])
 
@@ -62,15 +67,13 @@ const GestionarPeliculas = props => {
             },
             body: JSON.stringify(data)
         })
-        .then(res => res.json())
-        .then(data => data)
+            .then(res => res.json())
+            .then(data => data)
 
         return result
     }
 
-    const searchPeliculas = async e => {
-        e.preventDefault()
-
+    const getCriteria = () => {
         let criteria = {
             ...(searchByString && searchString && { searchString: searchString }),
             ...(searchByInitial && letter && { initial: letter }),
@@ -79,9 +82,22 @@ const GestionarPeliculas = props => {
             ...(searchBySubgenre && subgenre && { subgenre: subgenre })
         }
 
-        let peliculas = await fetchPeliculas(criteria, 0, 0)
+        return criteria
+    }
 
-        console.log(peliculas)
+    const turnPage = async (data, skip) => {
+        let peliculasSlice = data.slice(skip, (skip + itemsPerPage))
+        setPeliculasPortion(peliculasSlice)
+    }
+
+    const searchPeliculas = async e => {
+        e.preventDefault()
+
+        let pelis = await fetchPeliculas(getCriteria(), 0, 100)
+
+        setPeliculas(pelis)
+
+        turnPage(pelis, 0)
 
         if (searchString.length < 4)
             setValidateSearchString("Introduce al menos 4 caracteres")
@@ -144,6 +160,7 @@ const GestionarPeliculas = props => {
             <table className="table">
                 <thead>
                     <tr>
+                        <th>Número</th>
                         <th>Portada</th>
                         <th>Nombre</th>
                         <th>F. Estreno</th>
@@ -152,7 +169,8 @@ const GestionarPeliculas = props => {
                     </tr>
                 </thead>
                 <tbody>
-                    {peliculas.map((p, index) => <tr key={index}>
+                    {peliculasPortion.map((p, index) => <tr key={index}>
+                        <td>{index}</td>
                         <td><img src={"http://localhost:5000" + p.imgPath} /></td>
                         <td>{p.name}</td>
                         <td>{(new Date(p.date)).toLocaleDateString("es-ES", { day: "numeric", month: "numeric", year: "numeric" })}</td>
@@ -161,6 +179,9 @@ const GestionarPeliculas = props => {
                     </tr>)}
                 </tbody>
             </table>
+            <div>
+                {[...Array(Math.ceil(peliculas.length / itemsPerPage)).keys()].map((n, i) => <button onClick={() => turnPage(peliculas, i * itemsPerPage)} key={i}>{n}</button>)}
+            </div>
         </div>
     </>)
 }
