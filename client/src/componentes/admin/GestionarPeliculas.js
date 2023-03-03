@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react"
-
-
+import ReactPaginate from 'react-paginate';
 
 
 const GestionarPeliculas = props => {
@@ -18,11 +17,8 @@ const GestionarPeliculas = props => {
     const [date, setDate] = useState("")
     const [genre, setGenre] = useState("")
     const [subgenre, setSubgenre] = useState("")
-    const [currentPage, setCurrentPage] = useState(1)
-    const [peliculasPortion, setPeliculasPortion] = useState([])
+    const [items, setItems] = useState([])
     const abc = "abcdefghijklmnñopqrstuvwxyz"
-
-    const itemsPerPage = 10
 
     useEffect(() => {
         fetch("/api/admin/genero", {
@@ -52,8 +48,7 @@ const GestionarPeliculas = props => {
                 if (data.error)
                     return
 
-                setPeliculas(data)
-                turnPage(data, 0)
+                setItems(data)
             })
     }, [])
 
@@ -85,23 +80,85 @@ const GestionarPeliculas = props => {
         return criteria
     }
 
-    const turnPage = async (data, skip) => {
-        let peliculasSlice = data.slice(skip, (skip + itemsPerPage))
-        setPeliculasPortion(peliculasSlice)
-    }
-
     const searchPeliculas = async e => {
         e.preventDefault()
 
         let pelis = await fetchPeliculas(getCriteria(), 0, 100)
 
-        setPeliculas(pelis)
-
-        turnPage(pelis, 0)
+        setItems(pelis)
 
         if (searchString.length < 4)
             setValidateSearchString("Introduce al menos 4 caracteres")
 
+    }
+
+    function Items({ currentItems }) {
+        return (
+            <>
+                {currentItems &&
+                    currentItems.map((p, index) => (
+                        <tr key={index}>
+                            <td><img src={"http://localhost:5000" + p.imgPath} /></td>
+                            <td>{p.name}</td>
+                            <td>{(new Date(p.date)).toLocaleDateString("es-ES", { day: "numeric", month: "numeric", year: "numeric" })}</td>
+                            <td>{(genresList.find(g => g._id === p.genre).name)}</td>
+                            <td>{p.subgenre && (genresList.find(g => g._id === p.subgenre).name) || "-"}</td>
+                        </tr>
+                    ))}
+            </>
+        );
+    }
+
+    function PaginatedItems({ itemsPerPage }) {
+        // Here we use item offsets; we could also use page offsets
+        // following the API or data you're working with.
+        const [itemOffset, setItemOffset] = useState(0);
+
+        // Simulate fetching items from another resources.
+        // (This could be items from props; or items loaded in a local state
+        // from an API endpoint with useEffect and useState)
+        const endOffset = itemOffset + itemsPerPage;
+        console.log(`Loading items from ${itemOffset} to ${endOffset}`);
+        const currentItems = items.slice(itemOffset, endOffset);
+        const pageCount = Math.ceil(items.length / itemsPerPage);
+
+        // Invoke when user click to request another page.
+        const handlePageClick = (event) => {
+            const newOffset = (event.selected * itemsPerPage) % items.length;
+            console.log(
+                `User requested page number ${event.selected}, which is offset ${newOffset}`
+            );
+            setItemOffset(newOffset);
+        };
+
+        return (
+            <>
+                <table className="table">
+                    <thead>
+                        <tr>
+                            <th>Portada</th>
+                            <th>Nombre</th>
+                            <th>F. Estreno</th>
+                            <th>Género</th>
+                            <th>Subgénero</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <Items currentItems={currentItems} />
+                    </tbody>
+                </table>
+                <ReactPaginate
+                    breakLabel="..."
+                    nextLabel="next >"
+                    onPageChange={handlePageClick}
+                    pageRangeDisplayed={5}
+                    pageCount={pageCount}
+                    previousLabel="< previous"
+                    renderOnZeroPageCount={null}
+                    containerClassName="pagination"
+                />
+            </>
+        );
     }
 
     return (<>
@@ -157,31 +214,8 @@ const GestionarPeliculas = props => {
                     </div>
                 </div>
             </form>
-            <table className="table">
-                <thead>
-                    <tr>
-                        <th>Número</th>
-                        <th>Portada</th>
-                        <th>Nombre</th>
-                        <th>F. Estreno</th>
-                        <th>Género</th>
-                        <th>Subgénero</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {peliculasPortion.map((p, index) => <tr key={index}>
-                        <td>{index}</td>
-                        <td><img src={"http://localhost:5000" + p.imgPath} /></td>
-                        <td>{p.name}</td>
-                        <td>{(new Date(p.date)).toLocaleDateString("es-ES", { day: "numeric", month: "numeric", year: "numeric" })}</td>
-                        <td>{(genresList.find(g => g._id === p.genre).name)}</td>
-                        <td>{p.subgenre && (genresList.find(g => g._id === p.subgenre).name) || "-"}</td>
-                    </tr>)}
-                </tbody>
-            </table>
-            <div>
-                {[...Array(Math.ceil(peliculas.length / itemsPerPage)).keys()].map((n, i) => <button onClick={() => turnPage(peliculas, i * itemsPerPage)} key={i}>{n}</button>)}
-            </div>
+
+            <PaginatedItems itemsPerPage={10} />
         </div>
     </>)
 }
