@@ -437,6 +437,7 @@ form .grupo {
 
 .gestionar-peliculas form .input:disabled {
   border: 1px solid #c0c0c0;
+  background-color: #eeeeee;
 }
 
 .gestionar-peliculas form button[type="submit"] {
