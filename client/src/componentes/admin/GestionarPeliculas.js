@@ -90,6 +90,7 @@ const GestionarPeliculas = props => {
                             Género
                         </label>
                         <select value={genre} onChange={e => setGenre(e.target.value)} className="input" disabled={!searchByGenre}>
+                            <option value="">Selecciona un género</option>
                             {genresList.map((g, index) => <option value={g._id} key={index}>{g.name}</option>)}
                         </select>
                     </div>
@@ -99,6 +100,7 @@ const GestionarPeliculas = props => {
                             Subgénero
                         </label>
                         <select value={subgenre} onChange={e => setSubgenre(e.target.value)} className="input" disabled={!searchBySubgenre}>
+                            <option value="">Selecciona un género</option>
                             {genresList.map((g, index) => g._id != genre ? <option value={g._id} key={index}>{g.name}</option> : null)}
                         </select>
                     </div>
