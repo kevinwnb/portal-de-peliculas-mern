@@ -15,6 +15,14 @@ const getPeliculas = (req, res) => {
     })
 }
 
+const buscarPeliculas = (req, res) => {
+    const { searchString, letter, date, genre, subgenre } = req.body
+    const criteria = {
+        ...(searchString && { name: searchString })
+    }
+    return res.json(criteria)
+}
+
 const crearPelicula = (req, res) => {
     var oldpath = req.file.path;
     let newfilename = uuidv4() + path.extname(req.file.originalname)
@@ -38,4 +46,4 @@ const crearPelicula = (req, res) => {
     });
 }
 
-module.exports = { getPeliculas, crearPelicula }
+module.exports = { getPeliculas, crearPelicula, buscarPeliculas }

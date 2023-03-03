@@ -14,6 +14,8 @@ const GestionarPeliculas = props => {
     const [searchByGenre, setSearchByGenre] = useState(false)
     const [searchByInitial, setSearchByInitial] = useState(false)
     const [searchBySubgenre, setSearchBySubgenre] = useState(false)
+    const [letter, setLetter] = useState("a")
+    const [date, setDate] = useState()
     const [genre, setGenre] = useState()
     const [subgenre, setSubgenre] = useState()
     const abc = "abcdefghijklmnñopqrstuvwxyz"
@@ -52,8 +54,20 @@ const GestionarPeliculas = props => {
 
     const searchPeliculas = e => {
         e.preventDefault()
+
+        let criteria = {
+            ...(searchByString && searchString && { searchString: searchString }),
+            ...(searchByInitial && letter && { initial: letter }),
+            ...(searchByDate && date && { date: date }),
+            ...(searchByGenre && genre && { genre: genre }),
+            ...(searchBySubgenre && subgenre && { subgenre: subgenre })
+        }
+
+        console.log(criteria)
+
         if (searchString.length < 4)
             setValidateSearchString("Introduce al menos 4 caracteres")
+
     }
 
     return (<>
@@ -66,14 +80,14 @@ const GestionarPeliculas = props => {
                             <input type="checkbox" id="idSearchByString" onChange={e => setSearchByString(e.target.checked)} checked={searchByString} />
                             Incluir término
                         </label>
-                        <input className="input" disabled={!searchByString} type="text" id="idSearchString" minLength={4} placeholder="Criterio de búsqueda" />
+                        <input className="input" onChange={e => setSearchString(e.target.value)} value={searchString} disabled={!searchByString} type="text" id="idSearchString" minLength={4} placeholder="Criterio de búsqueda" />
                     </div>
                     <div className="grupo mx-3">
                         <label htmlFor="idSearchByInitial">
                             <input type="checkbox" id="idSearchByInitial" onChange={e => setSearchByInitial(e.target.checked)} checked={searchByInitial} />
                             Letra inicial
                         </label>
-                        <select className="input" disabled={!searchByInitial}>
+                        <select onChange={e => setLetter(e.target.value)} value={letter} className="input" disabled={!searchByInitial}>
                             {[...abc].map((letter, index) => <option className="btn btn-link" value={letter} key={index}>{letter.toLocaleUpperCase()}</option>)}
                         </select>
                     </div>
@@ -82,7 +96,7 @@ const GestionarPeliculas = props => {
                             <input id="idSearchByDate" type="checkbox" checked={searchByDate} onChange={e => setSearchByDate(e.target.checked)} />
                             Fecha de estreno
                         </label>
-                        <input className="input" disabled={!searchByDate} type="date" />
+                        <input className="input" disabled={!searchByDate} type="date" onChange={e => setDate(e.target.value)} value={date} />
                     </div>
                     <div className="grupo mx-3">
                         <label htmlFor="idSearchByGenre">
