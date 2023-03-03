@@ -13,6 +13,9 @@ const GestionarPeliculas = props => {
     const [searchByString, setSearchByString] = useState(false)
     const [searchByGenre, setSearchByGenre] = useState(false)
     const [searchByInitial, setSearchByInitial] = useState(false)
+    const [searchBySubgenre, setSearchBySubgenre] = useState(false)
+    const [genre, setGenre] = useState()
+    const [subgenre, setSubgenre] = useState()
     const abc = "abcdefghijklmnñopqrstuvwxyz"
 
     useEffect(() => {
@@ -86,8 +89,17 @@ const GestionarPeliculas = props => {
                             <input id="idSearchByGenre" type="checkbox" checked={searchByGenre} onChange={e => setSearchByGenre(e.target.checked)} />
                             Género
                         </label>
-                        <select className="input" disabled={!searchByGenre}>
+                        <select value={genre} onChange={e => setGenre(e.target.value)} className="input" disabled={!searchByGenre}>
                             {genresList.map((g, index) => <option value={g._id} key={index}>{g.name}</option>)}
+                        </select>
+                    </div>
+                    <div className="grupo mx-3">
+                        <label htmlFor="idSearchBySubgenre">
+                            <input id="idSearchBySubgenre" type="checkbox" checked={searchBySubgenre} onChange={e => setSearchBySubgenre(e.target.checked)} />
+                            Subgénero
+                        </label>
+                        <select value={subgenre} onChange={e => setSubgenre(e.target.value)} className="input" disabled={!searchBySubgenre}>
+                            {genresList.map((g, index) => g._id != genre ? <option value={g._id} key={index}>{g.name}</option> : null)}
                         </select>
                     </div>
                     <div className="grupo mx-3">
