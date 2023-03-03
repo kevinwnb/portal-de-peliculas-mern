@@ -15,9 +15,9 @@ const GestionarPeliculas = props => {
     const [searchByInitial, setSearchByInitial] = useState(false)
     const [searchBySubgenre, setSearchBySubgenre] = useState(false)
     const [letter, setLetter] = useState("a")
-    const [date, setDate] = useState()
-    const [genre, setGenre] = useState()
-    const [subgenre, setSubgenre] = useState()
+    const [date, setDate] = useState("")
+    const [genre, setGenre] = useState("")
+    const [subgenre, setSubgenre] = useState("")
     const abc = "abcdefghijklmnñopqrstuvwxyz"
 
     useEffect(() => {

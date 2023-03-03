@@ -21,11 +21,17 @@ const buscarPeliculas = async (req, res) => {
         return peliculas
     }
 
+    Date.prototype.addDays = function(days) {
+        var date = new Date(this.valueOf());
+        date.setDate(date.getDate() + days);
+        return date;
+    }
+
     const { searchString, initial, date, genre, subgenre } = req.body
     let query = {
         ...(searchString && { name: { $regex: '.*' + searchString + '.*' } }),
         //...(initial && { name: {$regex : "^" + initial} }),
-        ...(date && { date: date }),
+        ...(date && { date:{ $gte: new Date(date), $lt: (new Date(date)).addDays(1) } }),
         ...(genre && { genre: genre }),
         ...(subgenre && { subgenre: subgenre })
     }
@@ -33,7 +39,7 @@ const buscarPeliculas = async (req, res) => {
     let peliculas = await search(query, req.body.skip, req.body.limit).then(data => data)
 
     if (initial) {
-        peliculas = peliculas.filter(p => p.name.substring(0, 1) === initial || initial.toLocaleUpperCase())
+        peliculas = peliculas.filter(p => p.name.substring(0, 1) === initial.toLocaleLowerCase())
     }
 
     if (peliculas)
