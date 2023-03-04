@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react"
-
+import { memo, useEffect, useMemo, useState } from "react"
+import Pulse from "../imagenes/pulse loading.svg"
 
 
 
@@ -19,6 +19,14 @@ const GestionarPeliculas = props => {
     const [genre, setGenre] = useState("")
     const [subgenre, setSubgenre] = useState("")
     const [skip, setSkip] = useState(0)
+    const [dataCache, setDataCache] = useState({
+        searchString: "",
+        letter: "",
+        date: "",
+        genre: "",
+        subgenre: ""
+    })
+    const [showMessage, setShowMessage] = useState("")
     const abc = "abcdefghijklmnñopqrstuvwxyz"
 
     useEffect(() => {
@@ -52,8 +60,10 @@ const GestionarPeliculas = props => {
             ...(searchByGenre && genre && { genre: genre }),
             ...(searchBySubgenre && subgenre && { subgenre: subgenre }),
             skip: 0,
-            limit: 10
+            limit: 50
         }
+
+        setDataCache(data)
 
         fetch("/api/admin/pelicula/buscar", {
             method: "POST",
@@ -63,26 +73,30 @@ const GestionarPeliculas = props => {
             },
             body: JSON.stringify(data)
         })
-            .then(res => res.json())
+            .then(res => {
+                switch (res.status) {
+                    case 404:
+                        setShowMessage("No se han encontrado peliculas con los filtros seleccionados")
+                        break;
+
+                    default:
+                        setShowMessage("")
+                        break;
+                }
+
+                return res.json()
+            })
             .then(data => {
                 if (data.error)
-                    console.log(data.error)
+                    return console.log(data.error)
 
-                setPeliculas([...data])
+                setPeliculas([...data.peliculas])
                 setSkip(10)
             })
     }
 
     const loadMore = () => {
-        let data = {
-            ...(searchByString && searchString && { searchString: searchString }),
-            ...(searchByInitial && letter && { initial: letter }),
-            ...(searchByDate && date && { date: date }),
-            ...(searchByGenre && genre && { genre: genre }),
-            ...(searchBySubgenre && subgenre && { subgenre: subgenre }),
-            skip: skip,
-            limit: 10
-        }
+        let data = { ...dataCache, skip: skip }
 
         fetch("/api/admin/pelicula/buscar", {
             method: "POST",
@@ -97,23 +111,41 @@ const GestionarPeliculas = props => {
                 if (data.error)
                     console.log(data.error)
 
-                setPeliculas([...peliculas, ...data])
+                setPeliculas([...peliculas, ...data.peliculas])
+
                 setSkip(s => s + 10)
             })
     }
 
-    const Tbody = () => {
-        return (<tbody>
-            {peliculas.map((p, index) => <tr key={index}>
-                <td>{index}</td>
-                <td><img src={"http://localhost:5000" + p.imgPath} /></td>
-                <td>{p.name}</td>
-                <td>{(new Date(p.date)).toLocaleDateString("es-ES", { day: "numeric", month: "numeric", year: "numeric" })}</td>
-                <td>{(genresList.find(g => g._id === p.genre).name)}</td>
-                <td>{p.subgenre && (genresList.find(g => g._id === p.subgenre).name) || "-"}</td>
-            </tr>)}
-        </tbody>)
-    }
+    const Table = useMemo(() => () => {
+        if (showMessage)
+            return (<p className="alert alert-warning">{showMessage}</p>)
+        if (peliculas.length === 0 || genresList.length === 0)
+            return (<div className="loading-icon"></div>)
+        return (
+            <table className="table">
+                <thead>
+                    <tr>
+                        <th>Número</th>
+                        <th>Portada</th>
+                        <th>Nombre</th>
+                        <th>F. Estreno</th>
+                        <th>Género</th>
+                        <th>Subgénero</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {peliculas.map((p, index) => <tr key={index}>
+                        <td>{index + 1}</td>
+                        <td><img src={"http://localhost:5000" + p.imgPath} /></td>
+                        <td>{p.name}</td>
+                        <td>{(new Date(p.date)).toLocaleDateString("es-ES", { day: "numeric", month: "numeric", year: "numeric" })}</td>
+                        <td>{(genresList.find(g => g._id === p.genre).name)}</td>
+                        <td>{p.subgenre && (genresList.find(g => g._id === p.subgenre).name) || "-"}</td>
+                    </tr>)}
+                </tbody>
+            </table>)
+    }, [peliculas, genresList, showMessage])
 
     return (<>
         <div className="wrapper contenido gestionar-peliculas pb-100px">
@@ -168,21 +200,12 @@ const GestionarPeliculas = props => {
                     </div>
                 </div>
             </form>
-            <table className="table">
-                <thead>
-                    <tr>
-                        <th>Número</th>
-                        <th>Portada</th>
-                        <th>Nombre</th>
-                        <th>F. Estreno</th>
-                        <th>Género</th>
-                        <th>Subgénero</th>
-                    </tr>
-                </thead>
-                {peliculas.length > 0 && genresList.length > 0 && <Tbody />}
-            </table>
-            <div>
-                <button onClick={() => loadMore()}>+</button>
+            <p className="alert alert-info">La búsqueda retorna un máximo de 50 líneas, si la película que busca no se encuentra entre los resultados intente concretar su búsqueda</p>
+            <div className="pre-table">
+                <Table />
+            </div>
+            <div className="d-none mt-5">
+                <button className="load-more" onClick={() => loadMore()}><i className="fa-solid fa-plus"></i></button>
             </div>
         </div>
     </>)
