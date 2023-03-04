@@ -41,15 +41,49 @@ const GestionarPeliculas = props => {
         searchPeliculas()
     }, [])
 
-    useEffect(() => {
-        if (peliculas.length === 0 && skip === 0) {
-            fetchPeliculas(getCriteria(), skip, 10)
-            setSkip(s => s + 10)
-        }
-    }, [peliculas, skip])
+    const searchPeliculas = (e) => {
+        if (e)
+            e.preventDefault()
 
-    const fetchPeliculas = (criteria, skip, limit) => {
-        let data = { ...criteria, skip: skip, limit: limit }
+        let data = {
+            ...(searchByString && searchString && { searchString: searchString }),
+            ...(searchByInitial && letter && { initial: letter }),
+            ...(searchByDate && date && { date: date }),
+            ...(searchByGenre && genre && { genre: genre }),
+            ...(searchBySubgenre && subgenre && { subgenre: subgenre }),
+            skip: 0,
+            limit: 10
+        }
+
+        fetch("/api/admin/pelicula/buscar", {
+            method: "POST",
+            headers: {
+                Authorization: "Bearer " + props.token,
+                "content-type": "application/json"
+            },
+            body: JSON.stringify(data)
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.error)
+                    console.log(data.error)
+
+                setPeliculas([...data])
+                setSkip(10)
+            })
+    }
+
+    const loadMore = () => {
+        let data = {
+            ...(searchByString && searchString && { searchString: searchString }),
+            ...(searchByInitial && letter && { initial: letter }),
+            ...(searchByDate && date && { date: date }),
+            ...(searchByGenre && genre && { genre: genre }),
+            ...(searchBySubgenre && subgenre && { subgenre: subgenre }),
+            skip: skip,
+            limit: 10
+        }
+
         fetch("/api/admin/pelicula/buscar", {
             method: "POST",
             headers: {
@@ -64,36 +98,21 @@ const GestionarPeliculas = props => {
                     console.log(data.error)
 
                 setPeliculas([...peliculas, ...data])
+                setSkip(s => s + 10)
             })
     }
 
-    const getCriteria = () => {
-        let criteria = {
-            ...(searchByString && searchString && { searchString: searchString }),
-            ...(searchByInitial && letter && { initial: letter }),
-            ...(searchByDate && date && { date: date }),
-            ...(searchByGenre && genre && { genre: genre }),
-            ...(searchBySubgenre && subgenre && { subgenre: subgenre })
-        }
-
-        return criteria
-    }
-
-    const searchPeliculas = (e) => {
-        if (e)
-            e.preventDefault()
-
-        setPeliculas([])
-        setSkip(0)
-
-        if (searchString.length < 4)
-            setValidateSearchString("Introduce al menos 4 caracteres")
-
-    }
-
-    const loadMore = () => {
-        fetchPeliculas(getCriteria(), skip, 10)
-        setSkip(s => s + 10)
+    const Tbody = () => {
+        return (<tbody>
+            {peliculas.map((p, index) => <tr key={index}>
+                <td>{index}</td>
+                <td><img src={"http://localhost:5000" + p.imgPath} /></td>
+                <td>{p.name}</td>
+                <td>{(new Date(p.date)).toLocaleDateString("es-ES", { day: "numeric", month: "numeric", year: "numeric" })}</td>
+                <td>{(genresList.find(g => g._id === p.genre).name)}</td>
+                <td>{p.subgenre && (genresList.find(g => g._id === p.subgenre).name) || "-"}</td>
+            </tr>)}
+        </tbody>)
     }
 
     return (<>
@@ -160,16 +179,7 @@ const GestionarPeliculas = props => {
                         <th>Subgénero</th>
                     </tr>
                 </thead>
-                {peliculas.length > 0 && (<tbody>
-                    {peliculas.map((p, index) => <tr key={index}>
-                        <td>{index}</td>
-                        <td><img src={"http://localhost:5000" + p.imgPath} /></td>
-                        <td>{p.name}</td>
-                        <td>{(new Date(p.date)).toLocaleDateString("es-ES", { day: "numeric", month: "numeric", year: "numeric" })}</td>
-                        <td>{(genresList.find(g => g._id === p.genre).name)}</td>
-                        <td>{p.subgenre && (genresList.find(g => g._id === p.subgenre).name) || "-"}</td>
-                    </tr>)}
-                </tbody>)}
+                {peliculas.length > 0 && genresList.length > 0 && <Tbody />}
             </table>
             <div>
                 <button onClick={() => loadMore()}>+</button>
