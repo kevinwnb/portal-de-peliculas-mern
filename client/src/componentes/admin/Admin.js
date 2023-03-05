@@ -26,7 +26,6 @@ const Admin = (props) => {
             <NavLink activeclassname="active" to="/admin/dashboard">Dashboard</NavLink>
             <NavLink activeclassname="active" to="/admin/peliculas/gestionar">Gestionar películas</NavLink>
             <NavLink activeclassname="active" to="/admin/peliculas/crear">Añadir Película</NavLink>
-            <NavLink activeclassname="active" to="/admin/peliculas/editar">Modificar Película</NavLink>
             <button onClick={e => logout()}>Salir</button>
         </nav>
         <Routes>
@@ -34,7 +33,7 @@ const Admin = (props) => {
             <Route path="/dashboard" element={(token ? <Dashboard /> : <Navigate to="/admin/login" replace={true} />)} />
             <Route path="/peliculas/gestionar" element={(token ? <GestionarPeliculas token={token} /> : <Navigate to="/admin/login" replace={true} />)} />
             <Route path="/peliculas/crear" element={token ? <CrearPelicula token={token} /> : <Navigate to="/admin/login" replace={true} />} />
-            <Route path="/peliculas/editar" element={token ? <EditarPelicula /> : <Navigate to="/admin/login" replace={true} />} />
+            <Route path="/peliculas/editar/:id" element={token ? <EditarPelicula token={token} /> : <Navigate to="/admin/login" replace={true} />} />
             <Route path="*" element={<Navigate to="/admin/login" replace={true} />} />
         </Routes>
     </>)

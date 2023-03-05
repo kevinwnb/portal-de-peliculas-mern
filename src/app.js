@@ -31,6 +31,10 @@ app.get("/api/generatedata", (req, res) => {
         return Math.floor(Math.random() * max) + 1;
     }
 
+    function capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
     function randomDate(start, end) {
         return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
     }
@@ -41,7 +45,7 @@ app.get("/api/generatedata", (req, res) => {
 
             let peliculas = []
 
-        for (let i = 0; i < 50; i++) {
+        for (let i = 0; i < 200; i++) {
             const lorem = new LoremIpsum({
                 sentencesPerParagraph: {
                     max: 8,
@@ -57,7 +61,7 @@ app.get("/api/generatedata", (req, res) => {
             let subgenre = genres.filter(g => g._id !== genre._id)[(getRandomInt(genres.length - 2) - 1)]
 
             let pelicula = new Pelicula()
-            pelicula.name = lorem.generateWords(getRandomInt(2) + 1)
+            pelicula.name = capitalizeFirstLetter(lorem.generateWords(getRandomInt(2) + 1))
             pelicula.date = randomDate(new Date(2012, 0, 1), new Date())
             pelicula.genre = genre._id
             pelicula.subgenre = subgenre._id

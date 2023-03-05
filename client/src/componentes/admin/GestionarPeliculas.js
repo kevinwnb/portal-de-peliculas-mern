@@ -1,6 +1,6 @@
 import { memo, useEffect, useMemo, useState } from "react"
-import Pulse from "../imagenes/pulse loading.svg"
-
+import { Link } from "react-router-dom"
+import $ from "jquery"
 
 
 const GestionarPeliculas = props => {
@@ -18,6 +18,8 @@ const GestionarPeliculas = props => {
     const [date, setDate] = useState("")
     const [genre, setGenre] = useState("")
     const [subgenre, setSubgenre] = useState("")
+    const [st, setSt] = useState(0)
+    const [idToDelete, setIdToDelete] = useState("")
     //const [skip, setSkip] = useState(0)
     // const [dataCache, setDataCache] = useState({
     //     searchString: "",
@@ -27,6 +29,7 @@ const GestionarPeliculas = props => {
     //     subgenre: ""
     // })
     const [showMessage, setShowMessage] = useState("")
+    const [showModal, setShowModal] = useState(false)
     const abc = "abcdefghijklmnñopqrstuvwxyz"
 
     useEffect(() => {
@@ -48,6 +51,46 @@ const GestionarPeliculas = props => {
 
         searchPeliculas()
     }, [])
+
+    useEffect(() => {
+        if (showModal) {
+            setSt(window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0)
+        }
+        else {
+            document.querySelector("body").classList.remove("lock-scroll")
+            window.scrollTo({ top: st, behavior: "instant" })
+        }
+    }, [showModal])
+
+    useEffect(() => {
+        if (showModal) {
+            let scrollTop = "-" + st + "px"
+            document.querySelector("body").classList.add("lock-scroll")
+            $("body").css({ top: scrollTop })
+        }
+    }, [st])
+
+    const deletePelicula = () => {
+        if (idToDelete)
+            fetch("/api/admin/pelicula", {
+                method: "DELETE",
+                headers: {
+                    Authorization: "Bearer " + props.token,
+                    "content-type": "application/json"
+                },
+                body: JSON.stringify({ id: idToDelete })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.error)
+                        return console.log(data.error)
+
+                    console.log(data)
+                    setPeliculas(peliculas.filter(p => p._id !== idToDelete))
+                    setIdToDelete("")
+                    setShowModal(false)
+                })
+    }
 
     const searchPeliculas = (e) => {
         if (e)
@@ -132,6 +175,7 @@ const GestionarPeliculas = props => {
                         <th>F. Estreno</th>
                         <th>Género</th>
                         <th>Subgénero</th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -142,14 +186,31 @@ const GestionarPeliculas = props => {
                         <td>{(new Date(p.date)).toLocaleDateString("es-ES", { day: "numeric", month: "numeric", year: "numeric" })}</td>
                         <td>{(genresList.find(g => g._id === p.genre).name)}</td>
                         <td>{p.subgenre && (genresList.find(g => g._id === p.subgenre).name) || "-"}</td>
+                        <td>
+                            <div className="d-flex flex-column">
+                                <Link className="btn btn-warning mb-2" to={"/admin/peliculas/editar/" + p._id}>Editar</Link>
+                                <button className="btn btn-danger" onClick={() => {
+                                    setIdToDelete(p._id)
+                                    setShowModal(true)
+                                }}>Eliminar</button>
+                            </div>
+                        </td>
                     </tr>)}
                 </tbody>
             </table>)
     }, [peliculas, genresList, showMessage])
 
     return (<>
+        {showModal && <div className="modal position-fixed" tabIndex="-1">
+            <div>
+                <button className="xclose" onClick={() => setShowModal(false)}><i className="fa-solid fa-xmark"></i></button>
+                <hr />
+                <p>Realmente quieres eliminar?</p>
+                <button className="btn btn-danger ms-auto d-flex" type="button" onClick={() => deletePelicula()}>Eliminar</button>
+            </div>
+        </div>}
         <div className="wrapper contenido gestionar-peliculas pb-100px">
-            <h6 className="display-6 mb-5">Criterios de búsqueda</h6>
+            <h6 className="display-6 mb-5">Búsqueda</h6>
             <form onSubmit={e => searchPeliculas(e)}>
                 <div className="d-flex mx-auto mb-5">
                     <div className="grupo mx-3">

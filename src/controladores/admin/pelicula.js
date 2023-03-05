@@ -15,6 +15,30 @@ const getPeliculas = (req, res) => {
     })
 }
 
+const getPelicula = (req, res) => {
+    Pelicula.findById(req.params.id, {}, function (err, doc) {
+        if (err)
+            return res.json({ error: err.message })
+
+        if (!doc)
+            return res.json({ error: "No se ha encontrado nada con este id" })
+
+        return res.json(doc)
+    })
+}
+
+const deletePelicula = (req, res) => {
+    Pelicula.findByIdAndDelete(req.body.id, function (err, doc) {
+        if (err)
+            return res.json({ error: err.message })
+
+        if (!doc)
+            return res.json({ error: "Error al eliminar la película" })
+
+        return res.json({ msg: "Película eliminada con éxito" })
+    })
+}
+
 const buscarPeliculas = async (req, res) => {
     const search = async (query, skip, limit) => {
         let peliculas = await Pelicula.find(query).skip(skip).limit(limit).exec()
@@ -27,10 +51,29 @@ const buscarPeliculas = async (req, res) => {
         return date;
     }
 
+    function capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
     const { searchString, initial, date, genre, subgenre } = req.body
+
     let query = {
-        ...(searchString && { name: { $regex: '.*' + searchString + '.*' } }),
-        ...(initial && { name: { $regex: "^" + initial } }),
+        ...(searchString && !initial && {
+            name: {
+                $in: [(new RegExp(".*" + searchString + ".*", "i"))]
+            }
+        }),
+        ...(!searchString && initial && {
+            name: {
+                $in: [(new RegExp('^' + initial, "i"))]
+            }
+        }),
+        ...(searchString && initial && {
+            $and: [
+                { name: { $regex: (new RegExp(".*" + searchString + ".*", "i")) } },
+                { name: { $regex: (new RegExp('^' + initial, "i")) } }
+            ]
+        }),
         ...(date && { date: { $gte: new Date(date), $lt: (new Date(date)).addDays(1) } }),
         ...(genre && { genre: genre }),
         ...(subgenre && { subgenre: subgenre })
@@ -71,4 +114,48 @@ const crearPelicula = (req, res) => {
     });
 }
 
-module.exports = { getPeliculas, crearPelicula, buscarPeliculas }
+const updatePelicula = async (req, res) => {
+    if (req.file) {
+        var oldpath = req.file.path;
+        let newfilename = uuidv4() + path.extname(req.file.originalname)
+        var newpath = path.resolve(__dirname, "../../uploads/", newfilename);
+        fs.rename(oldpath, newpath, function (err) {
+            if (err)
+                return res.json({ error: err.message })
+
+            let imgPath = "/uploads/" + newfilename
+            updateDoc(imgPath)
+        })
+    }
+    else
+        updateDoc(req.body.imgPath)
+
+    function updateDoc(imgPath) {
+        console.log(imgPath)
+        Pelicula.findById(req.body._id, {}, function (err, doc) {
+            if (err)
+                return res.json({ error: err.message })
+
+            if (!doc)
+                return res.json({ error: "No se han encontrado la película" })
+
+            if ((new Date(doc.updatedAt)).toISOString() !== (new Date(req.body.updatedAt)).toISOString())
+                return res.json({ error: "Esta película ha sido editada por otro administrador hace un momento, refresca la página para obtener la versión más reciente" })
+
+            doc.name = req.body.name
+            doc.date = new Date(req.body.date)
+            doc.genre = req.body.genre
+            doc.subgenre = req.body.subgenre || undefined
+            doc.imgPath = imgPath
+
+            doc.save().then(savedDoc => {
+                if (savedDoc !== doc)
+                    return res.json({ error: "Error al guardar la película" })
+
+                return res.json({ msg: "La película ha sido actualizada con éxito" })
+            })
+        })
+    }
+}
+
+module.exports = { getPelicula, getPeliculas, crearPelicula, buscarPeliculas, updatePelicula, deletePelicula }
