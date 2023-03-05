@@ -18,14 +18,14 @@ const GestionarPeliculas = props => {
     const [date, setDate] = useState("")
     const [genre, setGenre] = useState("")
     const [subgenre, setSubgenre] = useState("")
-    const [skip, setSkip] = useState(0)
-    const [dataCache, setDataCache] = useState({
-        searchString: "",
-        letter: "",
-        date: "",
-        genre: "",
-        subgenre: ""
-    })
+    //const [skip, setSkip] = useState(0)
+    // const [dataCache, setDataCache] = useState({
+    //     searchString: "",
+    //     letter: "",
+    //     date: "",
+    //     genre: "",
+    //     subgenre: ""
+    // })
     const [showMessage, setShowMessage] = useState("")
     const abc = "abcdefghijklmnñopqrstuvwxyz"
 
@@ -63,7 +63,7 @@ const GestionarPeliculas = props => {
             limit: 50
         }
 
-        setDataCache(data)
+        //setDataCache(data)
 
         fetch("/api/admin/pelicula/buscar", {
             method: "POST",
@@ -91,31 +91,31 @@ const GestionarPeliculas = props => {
                     return console.log(data.error)
 
                 setPeliculas([...data.peliculas])
-                setSkip(10)
+                //setSkip(10)
             })
     }
 
-    const loadMore = () => {
-        let data = { ...dataCache, skip: skip }
+    // const loadMore = () => {
+    //     let data = { ...dataCache, skip: skip }
 
-        fetch("/api/admin/pelicula/buscar", {
-            method: "POST",
-            headers: {
-                Authorization: "Bearer " + props.token,
-                "content-type": "application/json"
-            },
-            body: JSON.stringify(data)
-        })
-            .then(res => res.json())
-            .then(data => {
-                if (data.error)
-                    console.log(data.error)
+    //     fetch("/api/admin/pelicula/buscar", {
+    //         method: "POST",
+    //         headers: {
+    //             Authorization: "Bearer " + props.token,
+    //             "content-type": "application/json"
+    //         },
+    //         body: JSON.stringify(data)
+    //     })
+    //         .then(res => res.json())
+    //         .then(data => {
+    //             if (data.error)
+    //                 console.log(data.error)
 
-                setPeliculas([...peliculas, ...data.peliculas])
+    //             setPeliculas([...peliculas, ...data.peliculas])
 
-                setSkip(s => s + 10)
-            })
-    }
+    //             //setSkip(s => s + 10)
+    //         })
+    // }
 
     const Table = useMemo(() => () => {
         if (showMessage)
@@ -204,9 +204,9 @@ const GestionarPeliculas = props => {
             <div className="pre-table">
                 <Table />
             </div>
-            <div className="d-none mt-5">
+            {/* <div className="mt-5">
                 <button className="load-more" onClick={() => loadMore()}><i className="fa-solid fa-plus"></i></button>
-            </div>
+            </div> */}
         </div>
     </>)
 }
