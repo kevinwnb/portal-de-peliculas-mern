@@ -6,6 +6,7 @@ import Dashboard from "./Dashboard"
 import Login from "./Login"
 import EditarPelicula from './EditarPelicula'
 import GestionarPeliculas from "./GestionarPeliculas"
+import GestionarUsuarios from "./usuario/GestionarUsuarios"
 
 const Admin = (props) => {
     const [token, setToken] = useState(Cookies.get("admin-token") || "")
@@ -34,6 +35,7 @@ const Admin = (props) => {
             <Route path="/peliculas/gestionar" element={(token ? <GestionarPeliculas token={token} /> : <Navigate to="/admin/login" replace={true} />)} />
             <Route path="/peliculas/crear" element={token ? <CrearPelicula token={token} /> : <Navigate to="/admin/login" replace={true} />} />
             <Route path="/peliculas/editar/:id" element={token ? <EditarPelicula token={token} /> : <Navigate to="/admin/login" replace={true} />} />
+            <Route path="/usuarios/gestionar" element={(token ? <GestionarUsuarios token={token} /> : <Navigate to="/admin/login" replace={true} />)} />
             <Route path="*" element={<Navigate to="/admin/login" replace={true} />} />
         </Routes>
     </>)

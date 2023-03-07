@@ -74,7 +74,7 @@ const updateUsuario = (req, res) => {
 }
 
 const deleteUsuario = (req, res) => {
-    Usuario.findByIdAndDelete(req.body.password, {}, function (err, doc) {
+    Usuario.findByIdAndDelete(req.body.id, {}, function (err, doc) {
         if (err)
             return res.json({ error: err.message })
 

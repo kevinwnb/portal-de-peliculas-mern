@@ -12,6 +12,7 @@ const path = require("path")
 const LoremIpsum = require("lorem-ipsum").LoremIpsum
 const Pelicula = require("./modelos/pelicula")
 const Genero = require("./modelos/genero")
+const usuarioRouter = require("./rutas/admin/usuario")
 
 app.use(express.json())
 app.use("/uploads", express.static(path.resolve(__dirname, "uploads")))
@@ -21,6 +22,7 @@ app.use("/api/login", loginRouter)
 app.use("/api/admin", adminRouter)
 app.use("/api/admin/pelicula", peliculaRouter)
 app.use("/api/admin/genero", generoRouter)
+app.use("/api/admin/usuario", usuarioRouter)
 app.get("/api/generatedata", (req, res) => {
     Pelicula.remove({}, function (err) {
         if (err)

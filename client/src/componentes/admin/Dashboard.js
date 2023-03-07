@@ -11,6 +11,7 @@ const Dashboard = ()=>{
             <Link className="item browse-movies" to="/admin/peliculas/gestionar">Gestionar Peliculas</Link>
             <Link className="item add-movie" to="/admin/peliculas/crear">Añadir Película</Link>
             <Link className="item edit-movie" to="/admin/peliculas/editar/:id">Editar Película</Link>
+            <Link className="item browse-users" to="/admin/usuarios/gestionar">Gestionar Usuarios</Link>
         </div>
     </div>
     </>)

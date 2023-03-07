@@ -9,3 +9,5 @@ router.get("/", searchUsuarios)
 router.post("/", createUsuario)
 router.put("/:id", updateUsuario)
 router.delete("/", deleteUsuario)
+
+module.exports = router
