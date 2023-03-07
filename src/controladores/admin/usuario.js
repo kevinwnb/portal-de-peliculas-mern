@@ -44,9 +44,10 @@ const getUsuario = (req, res) => {
 
 const createUsuario = (req, res) => {
     let usuario = new Usuario()
-    usuario.name = req.body.name
+    usuario.firstName = req.body.firstName
     usuario.lastName = req.body.lastName
     usuario.email = req.body.email
+    usuario.role = "admin"
     usuario.password = bcrypt.hashSync(req.body.password, 10)
     usuario.save().then(savedDoc => {
         if (!savedDoc)

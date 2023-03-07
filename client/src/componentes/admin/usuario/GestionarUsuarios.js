@@ -62,7 +62,6 @@ const GestionarUsuarios = props => {
                     <table className="table">
                         <thead>
                             <tr>
-                                <th>ID Admin</th>
                                 <th>Nombre</th>
                                 <th>Apellido</th>
                                 <th>Email</th>
@@ -72,7 +71,6 @@ const GestionarUsuarios = props => {
                         </thead>
                         <tbody>
                             {usuarios.map((u, index) => (<tr key={index}>
-                                <td>{u.userId || "-"}</td>
                                 <td>{u.firstName}</td>
                                 <td>{u.lastName}</td>
                                 <td>{u.email}</td>
@@ -101,7 +99,7 @@ const GestionarUsuarios = props => {
     return (<>
         {userIdToDelete && <DeleteUsuarioModal id={userIdToDelete} />}
         <div className="wrapper contenido gestionar-usuarios">
-            <h6 className="display-6">Gestionar Usuarios</h6>
+            <h6 className="display-6 text-center mb-5">Gestionar Usuarios</h6>
             {renderUsuarios(usuarios)}
         </div>
     </>)

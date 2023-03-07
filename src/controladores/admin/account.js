@@ -3,12 +3,15 @@ const Usuario = require("../../modelos/usuario")
 const jwt = require("jsonwebtoken")
 
 const login = (req, res) => {
-    Usuario.findOne({ userId: Number(req.body.userId) }, function (err, user) {
+    Usuario.findOne({ email: req.body.email }, function (err, user) {
         if (err)
             return res.json({ error: err.message })
 
         if (!user)
-            return res.json({ error: "Credenciales incorrectos" })
+            return res.json({ error: "No existe ninguna cuenta con este email" })
+
+        if (user.role !== "admin")
+            return res.json({ error: "Este usuario no es administrador" })
 
 
         bcrypt.compare(req.body.password, user.password, function (err, result) {

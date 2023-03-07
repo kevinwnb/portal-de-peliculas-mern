@@ -327,6 +327,7 @@ div.hamburger-menu ul li.logout a:hover {
 .dashboard {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 .dashboard .item {
@@ -338,6 +339,8 @@ div.hamburger-menu ul li.logout a:hover {
   border: 2px solid black;
   font-size: 120%;
   font-weight: bold;
+  flex: 1 1 0px;
+  text-align: center;
 }
 
 .dashboard .item:hover {
@@ -347,7 +350,8 @@ div.hamburger-menu ul li.logout a:hover {
 
 
 .crear-pelicula form,
-.editar-pelicula form {
+.editar-pelicula form,
+.usuarios form {
   display: flex;
   flex-direction: column;
   margin: 0 auto;
@@ -361,13 +365,15 @@ div.hamburger-menu ul li.logout a:hover {
 
 .crear-pelicula form .grupo,
 .editar-pelicula form .grupo,
-.gestionar-peliculas form .grupo {
+.gestionar-peliculas form .grupo,
+.usuarios form .grupo {
   margin-bottom: 15px;
   display: flex;
   flex-direction: column;
 }
 
-.crear-pelicula .image-preview, .editar-pelicula form .image-preview {
+.crear-pelicula .image-preview,
+.editar-pelicula form .image-preview {
   width: 100%;
   max-width: 200px;
   display: flex;
@@ -375,13 +381,15 @@ div.hamburger-menu ul li.logout a:hover {
   margin-bottom: 20px;
 }
 
-.crear-pelicula .image-preview img, .editar-pelicula form .image-preview img {
+.crear-pelicula .image-preview img,
+.editar-pelicula form .image-preview img {
   width: 100%;
   height: 100%;
   object-fit: contain;
 }
 
-.crear-pelicula button {
+.crear-pelicula button,
+.usuarios form button[type="submit"] {
   background-color: mediumseagreen;
   padding: 10px;
 }
@@ -392,30 +400,47 @@ div.hamburger-menu ul li.logout a:hover {
   padding: 10px;
 }
 
-.crear-pelicula #image, .editar-pelicula #image {
+.crear-pelicula #image,
+.editar-pelicula #image {
   width: 100%;
 }
 
-.crear-pelicula button.eliminar, .editar-pelicula form button.eliminar {
+.crear-pelicula button.eliminar,
+.editar-pelicula form button.eliminar {
   color: red;
   padding: 0;
   background-color: transparent;
   border: none;
 }
 
-.crear-pelicula button.eliminar:hover, .editar-pelicula form button.eliminar:hover {
+.crear-pelicula button.eliminar:hover,
+.editar-pelicula form button.eliminar:hover {
   cursor: pointer;
   text-decoration: underline;
 }
 
 
 
-.admin-nav a {
-  margin: 0 10px;
+.admin-nav {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  position: fixed;
+  width: 200px;
+}
+
+.admin-nav a, .admin-nav button {
+  margin: 5px 10px;
   text-decoration: none;
   padding: 5px;
   background-color: #c0c0c0;
   color: black;
+}
+
+.admin-nav button {
+  background-color: #b80000;
+  color: white;
+  border: none;
 }
 
 .admin-nav a:hover {
@@ -525,12 +550,12 @@ div.hamburger-menu ul li.logout a:hover {
   justify-content: center;
 }
 
-.modal > div {
+.modal>div {
   padding: 20px;
   background-color: white;
 }
 
-.modal > div .xclose {
+.modal>div .xclose {
   font-size: 200%;
   border: none;
   padding: 0;
@@ -541,7 +566,7 @@ div.hamburger-menu ul li.logout a:hover {
 
 
 
-@media (min-width: 450px) {
+@media (min-width: 650px) {
   .gestionar-peliculas form {
     max-width: none;
     margin: 0;
