@@ -9,6 +9,7 @@ import GestionarPeliculas from "./GestionarPeliculas"
 import GestionarUsuarios from "./usuario/GestionarUsuarios"
 import CrearUsuario from "./usuario/CrearUsuario"
 import "@flaticon/flaticon-uicons/css/all/all.css"
+import EditarUsuario from "./usuario/EditarUsuario"
 
 const Admin = (props) => {
     const [token, setToken] = useState(Cookies.get("admin-token") || "")
@@ -26,15 +27,15 @@ const Admin = (props) => {
 
     return (<>
         <div className="d-flex">
-            <nav className="admin-nav">
+            {window.location.pathname !== "/admin/login" && <nav className="admin-nav">
                 <NavLink activeclassname="active" to="/admin/dashboard"><i className="fi fi-br-grid"></i> Dashboard</NavLink>
                 <NavLink activeclassname="active" to="/admin/peliculas/gestionar"><i className="fi fi-rr-layer-plus"></i> Gestionar películas</NavLink>
                 <NavLink activeclassname="active" to="/admin/peliculas/crear"><i className="fi fi-rs-square-plus"></i> Añadir Película</NavLink>
                 <NavLink activeclassname="active" to="/admin/usuarios/gestionar"><i className="fi fi-rr-layer-plus"></i> Gestionar Usuarios</NavLink>
                 <NavLink activeclassname="active" to="/admin/usuarios/crear"><i className="fi fi-rs-square-plus"></i> Añadir Administrador</NavLink>
                 <button onClick={e => logout()}><i className="fi fi-rs-exit"></i> Salir</button>
-            </nav>
-            <div style={{ paddingLeft:"200px", flex:1, maxWidth:"100%" }}>
+            </nav>}
+            <div style={{ ...(window.location.pathname !== "/admin/login" && { paddingLeft: "200px" }), flex: 1, maxWidth: "100%" }}>
                 <Routes>
                     <Route path="/login" element={(token ? <Navigate to="/admin/dashboard" replace={true} /> : <Login token={token} setToken={setToken} />)} />
                     <Route path="/dashboard" element={(token ? <Dashboard /> : <Navigate to="/admin/login" replace={true} />)} />
@@ -43,6 +44,7 @@ const Admin = (props) => {
                     <Route path="/peliculas/editar/:id" element={token ? <EditarPelicula token={token} /> : <Navigate to="/admin/login" replace={true} />} />
                     <Route path="/usuarios/gestionar" element={(token ? <GestionarUsuarios token={token} /> : <Navigate to="/admin/login" replace={true} />)} />
                     <Route path="/usuarios/crear" element={token ? <CrearUsuario token={token} /> : <Navigate to="/admin/login" replace={true} />} />
+                    <Route path="/usuarios/editar/:id" element={token ? <EditarUsuario token={token} /> : <Navigate to="/admin/login" replace={true} />} />
                     {/* <Route path="/usuarios/editar/:id" element={token ? <EditarUsuario token={token} /> : <Navigate to="/admin/login" replace={true} />} /> */}
                     <Route path="*" element={<Navigate to="/admin/login" replace={true} />} />
                 </Routes>

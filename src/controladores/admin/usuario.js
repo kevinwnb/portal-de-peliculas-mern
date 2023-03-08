@@ -58,11 +58,11 @@ const createUsuario = (req, res) => {
 }
 
 const updateUsuario = (req, res) => {
-    Usuario.findByIdAndUpdate(req.params.id, {
-        name: req.body.name,
+    Usuario.findByIdAndUpdate(req.body.id, {
+        firstName: req.body.firstName,
         lastName: req.body.lastName,
         email: req.body.email,
-        password: bcrypt.hashSync(req.body.password, 10)
+        ...(req.body.password && { password: bcrypt.hashSync(req.body.password, 10) })
     }, {}, function (err, doc) {
         if (err)
             return res.json({ error: err.message })
@@ -70,7 +70,7 @@ const updateUsuario = (req, res) => {
         if (!doc)
             return res.json({ error: "No se ha podido actualizar el usuario" })
 
-        return res.json(doc)
+        return res.json({msg:"Cambios guardados con éxito"})
     })
 }
 

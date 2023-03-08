@@ -97,6 +97,7 @@ const CrearUsuario = props => {
     return (<>
         <div className="wrapper contenido crear-usuario usuarios">
             <form onSubmit={e => submit(e)}>
+                <h6 className="display-6 text-center mb-5">Crear Administrador</h6>
                 {successMessage && (<p className="alert alert-success">{successMessage}</p>)}
                 <div className="grupo">
                     <label htmlFor="firstName">Nombre</label>

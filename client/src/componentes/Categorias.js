@@ -1,24 +1,81 @@
+import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 
 
 const Categorias = (props) => {
-    
-    const categorias = [
-        { nombre: "Acción", id: 1 },
-        { nombre: "Aventuras", id: 1 },
-        { nombre: "Terror", id: 1 },
-        { nombre: "Ciencia Ficción", id: 1 },
-        { nombre: "Comedia", id: 1 },
-        { nombre: "Thriller", id: 1 },
-        { nombre: "Ánime", id: 1 },
-        { nombre: "Romántica", id: 1 },
-    ]
+
+    const [peliculas, setPeliculas] = useState([])
+    const [genres, setGenres] = useState([])
+
+    useEffect(() => {
+        getPerGenre20()
+        getGenres()
+    }, [])
+
+    const getGenres = () => {
+        fetch("/api/genero", {
+            method: "GET",
+            headers: {
+                Authorization: "Bearer " + props.token
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.error)
+                    return console.log(data.error)
+
+                setGenres(data)
+            })
+    }
+
+    const getPerGenre20 = () => {
+        fetch("/api/peliculas/pergenre20", {
+            method: "GET",
+            headers: {
+                Authorization: "Bearer " + props.token
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.error)
+                    return console.log(data.error)
+
+                setPeliculas(data)
+            })
+    }
+
+    const renderPeliculas = (genresParam, peliculasParam) => {
+        switch (true) {
+            case (peliculasParam.length > 0 && genresParam.length > 0):
+                return (<>
+                    {genresParam.sort((a, b) => a.name.localeCompare(b.name)).map(g => (<div>
+                        <h6>{g.name}</h6>
+                        <div className="d-flex">
+                            {peliculasParam.filter(p => p.genre === g._id).map(p => (<div>
+                                <div>
+                                    <Link to={"/pelicula/" + p._id}>
+                                        <div>
+                                            <h5 className="stars">{p.likeAverage}</h5>
+                                            <img src={p.imgPath} />
+                                            <h5>{p.name}</h5>
+                                        </div>
+                                    </Link>
+                                </div>
+                            </div>))}
+                        </div>
+                    </div>))}
+                </>)
+                break;
+
+            default:
+                return (<div className="loading-icon"></div>)
+                break;
+        }
+    }
 
     return (<>
-        <div className="container contenido">
-            <div className="row">
-                {categorias.map(c => (<div className="col col-lg-6 d-flex justify-content-center mb-2"><Link to="/" className="btn btn-dark">{c.nombre}</Link></div>))}
-            </div>
+        <div className="wrapper contenido">
+            {renderPeliculas(genres, peliculas)}
         </div>
     </>)
 }

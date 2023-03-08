@@ -1,74 +1,122 @@
+import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
-import Bodas from "./imagenes/catalogo/bodas.png"
-import Bullet from "./imagenes/catalogo/bullet.png"
-import Fast from "./imagenes/catalogo/fast.png"
-import FreeGuy from "./imagenes/catalogo/free guy.png"
-import Marea from "./imagenes/catalogo/marea.png"
-import Menu from "./imagenes/catalogo/menu.png"
-import Mortadelo from "./imagenes/catalogo/mortadelo.png"
-import Policias from "./imagenes/catalogo/policias.png"
-import Rampage from "./imagenes/catalogo/rampage.png"
-import Smile from "./imagenes/catalogo/smile.png"
-import Venus from "./imagenes/catalogo/venus.png"
-import Wakanda from "./imagenes/catalogo/wakanda.png"
 
 function Inicio(props) {
 
+    const [peliculas, setPeliculas] = useState([])
+
+    useEffect(() => {
+        getPeliculas()
+    }, [])
+
+    const getPeliculas = (e) => {
+        if (e)
+            e.preventDefault()
+
+        let data = {
+            limit: 80
+        }
+
+        fetch("/api/peliculas?limit=" + data.limit, {
+            method: "GET",
+            headers: {
+                Authorization: "Bearer " + props.token
+            }
+        })
+            .then(res => {
+                switch (res.status) {
+                    case 404:
+                        console.log("No se han encontrado peliculas con los filtros seleccionados")
+                        break;
+
+                    default:
+                        console.log("get peliculas good")
+                        break;
+                }
+
+                return res.json()
+            })
+            .then(data => {
+                if (data.error)
+                    return console.log(data.error)
+
+                setPeliculas([...data])
+            })
+    }
+
+    const renderPeliculas = peliculas => {
+        switch (true) {
+            case (peliculas && peliculas.length > 0):
+                return (<>
+                    <h6 className="titulo-apartado text-center text-md-start display-6">Favoritas</h6>
+                    <div className="movie-box d-flex flex-wrap">
+                        {peliculas.slice(0, 8).map(p => (<div>
+                            <div>
+                                <Link to={"/pelicula/" + p._id}>
+                                    <div>
+                                        <h5 className="stars">{p.likeAverage}</h5>
+                                        <img src={p.imgPath} />
+                                        <h5>{p.name}</h5>
+                                    </div>
+                                </Link>
+                            </div>
+                        </div>))}
+                    </div>
+                    <h6 className="titulo-apartado display-6 mt-5">Recomendaciones</h6>
+                    <div className="movie-box d-flex flex-wrap">
+                        {peliculas.slice(8, 16).map(p => (<div>
+                            <div>
+                                <Link to={"/pelicula/" + p._id}>
+                                    <div>
+                                        <h5 className="stars">{p.likeAverage}</h5>
+                                        <img src={p.imgPath} />
+                                        <h5>{p.name}</h5>
+                                    </div>
+                                </Link>
+                            </div>
+                        </div>))}
+                    </div>
+                    <h6 className="titulo-apartado display-6 mt-5">Populares</h6>
+                    <div className="movie-box d-flex flex-wrap">
+                        {peliculas.slice(16, 24).map(p => (<div>
+                            <div>
+                                <Link to={"/pelicula/" + p._id}>
+                                    <div>
+                                        <h5 className="stars">{p.likeAverage}</h5>
+                                        <img src={p.imgPath} />
+                                        <h5>{p.name}</h5>
+                                    </div>
+                                </Link>
+                            </div>
+                        </div>))}
+                    </div>
+                    <h6 className="titulo-apartado display-6 mt-5">Más Películas</h6>
+                    <div className="movie-box d-flex flex-wrap">
+                        {peliculas.slice(24, 32).map(p => (<div>
+                            <div>
+                                <Link to={"/pelicula/" + p._id}>
+                                    <div>
+                                        <h5 className="stars">{p.likeAverage}</h5>
+                                        <img src={p.imgPath} />
+                                        <h5>{p.name}</h5>
+                                    </div>
+                                </Link>
+                            </div>
+                        </div>))}
+                    </div>
+                </>)
+                break;
+
+            default:
+                return (<div className="loading-icon"></div>)
+                break;
+        }
+    }
+
     return (<>
         <div className='contenido'>
-            <div className="container">
-                <h6 className="titulo-apartado text-center text-md-start display-6">Favoritas</h6>
-                <div className="favoritas d-flex flex-wrap">
-                    <div>
-                        <Link to="/pelicula/1">
-                            <div>
-                            <h5 className="stars">+++++</h5>
-                                <img src={Bodas} />
-                                <h5>Bodas</h5>
-                            </div>
-                        </Link>
-                    </div>
-                    <div><div><img src={Bullet} /><h5>Bullet</h5></div></div>
-                    <div><div><img src={Fast} /><h5>Fast</h5></div></div>
-                    <div><div><img src={FreeGuy} /><h5>Free Guy</h5></div></div>
-                </div>
-                <h6 className="titulo-apartado display-6 mt-5">Recomendaciones</h6>
-                <div className="favoritas d-flex flex-wrap">
-                    <div><div><img src={Marea} /><h5>Marea</h5></div></div>
-                    <div><div><img src={Menu} /><h5>Menu</h5></div></div>
-                    <div><div><img src={Mortadelo} /><h5>Mortadelo</h5></div></div>
-                    <div><div><img src={Policias} /><h5>Policias</h5></div></div>
-                </div>
-                <h6 className="titulo-apartado display-6 mt-5">Populares</h6>
-                <div className="favoritas d-flex flex-wrap">
-                    <div><div><img src={Rampage} /><h5>Rampage</h5></div></div>
-                    <div><div><img src={Smile} /><h5>Smile</h5></div></div>
-                    <div><div><img src={Venus} /><h5>Venus</h5></div></div>
-                    <div><div><img src={Wakanda} /><h5>Wakanda</h5></div></div>
-                </div>
-                <h6 className="titulo-apartado display-6 mt-5">Más Películas</h6>
-                <div className="favoritas d-flex flex-wrap">
-                    <div>
-                        <Link to="/pelicula/1">
-                            <div>
-                            <h5 className="stars">+++++</h5>
-                                <img src={Bodas} />
-                                <h5>Bodas</h5>
-                            </div>
-                        </Link>
-                    </div>
-                    <div><div><img src={Bullet} /><h5>Bullet</h5></div></div>
-                    <div><div><img src={Fast} /><h5>Fast</h5></div></div>
-                    <div><div><img src={FreeGuy} /><h5>Free Guy</h5></div></div>
-                    <div><div><img src={Marea} /><h5>Marea</h5></div></div>
-                    <div><div><img src={Menu} /><h5>Menu</h5></div></div>
-                    <div><div><img src={Mortadelo} /><h5>Mortadelo</h5></div></div>
-                    <div><div><img src={Policias} /><h5>Policias</h5></div></div>
-                    <div><div><img src={Rampage} /><h5>Rampage</h5></div></div>
-                    <div><div><img src={Smile} /><h5>Smile</h5></div></div>
-                    <div><div><img src={Venus} /><h5>Venus</h5></div></div>
-                    <div><div><img src={Wakanda} /><h5>Wakanda</h5></div></div>
-                </div>
+            <div className="wrapper">
+                {renderPeliculas(peliculas)}
             </div>
         </div>
     </>)

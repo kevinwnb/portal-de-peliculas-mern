@@ -13,12 +13,14 @@ const LoremIpsum = require("lorem-ipsum").LoremIpsum
 const Pelicula = require("./modelos/pelicula")
 const Genero = require("./modelos/genero")
 const usuarioRouter = require("./rutas/admin/usuario")
+const generoNoAdminRouter = require("./rutas/genero")
 
 app.use(express.json())
 app.use("/uploads", express.static(path.resolve(__dirname, "uploads")))
 app.use("/inicio", (req, res) => res.send("hello"))
 app.use("/api/peliculas", peliculasRouter)
 app.use("/api/login", loginRouter)
+app.use("/api/genero", generoNoAdminRouter)
 app.use("/api/admin", adminRouter)
 app.use("/api/admin/pelicula", peliculaRouter)
 app.use("/api/admin/genero", generoRouter)
@@ -45,7 +47,7 @@ app.get("/api/generatedata", (req, res) => {
         if (err)
             console.log(err)
 
-            let peliculas = []
+        let peliculas = []
 
         for (let i = 0; i < 200; i++) {
             const lorem = new LoremIpsum({
@@ -68,6 +70,8 @@ app.get("/api/generatedata", (req, res) => {
             pelicula.genre = genre._id
             pelicula.subgenre = subgenre._id
             pelicula.imgPath = "/uploads/" + (getRandomInt(11) + ".png")
+            pelicula.description = lorem.generateParagraphs(getRandomInt(4) + 1)
+            pelicula.likeAverage = getRandomInt(4) + 1
             peliculas.push(pelicula)
         }
 

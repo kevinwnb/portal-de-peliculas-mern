@@ -146,7 +146,6 @@ div.hamburger-menu ul li.logout a:hover {
 
 .login-panel {
   max-width: 400px;
-  min-width: 300px;
 }
 
 .login-panel .username,
@@ -175,7 +174,7 @@ div.hamburger-menu ul li.logout a:hover {
   background-position: center;
 }
 
-.favoritas {
+.movie-box {
   justify-content: space-around;
 }
 
@@ -186,15 +185,22 @@ div.hamburger-menu ul li.logout a:hover {
   margin-bottom: 50px;
 }
 
-.favoritas>div {
+.movie-box>div {
   width: 25%;
   padding: 15px;
-  max-width: 220px;
   position: relative;
   overflow: hidden;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
 }
 
-.favoritas div div h5.stars {
+.movie-box > div > div > a {
+  color: black;
+  text-decoration: none;
+}
+
+.movie-box div div div h5.stars {
   content: "+++++";
   padding: 5px;
   background-color: white;
@@ -207,24 +213,26 @@ div.hamburger-menu ul li.logout a:hover {
   z-index: 1;
 }
 
-.favoritas div div:hover h5.stars {
+.movie-box div div div:hover h5.stars {
   left: +2vw;
   opacity: 1;
 }
 
-.favoritas div div {
+.movie-box div div div {
   overflow: hidden;
   position: relative;
+  max-width: 150px;
+  width: 100%;
 }
 
-.favoritas div div::before {
+.movie-box div div div::before {
   content: "";
   opacity: 0;
   transition: all 0.2s;
   position: absolute;
 }
 
-.favoritas div div:hover::before {
+.movie-box div div div:hover::before {
   content: "";
   opacity: 1;
   width: 100%;
@@ -232,7 +240,7 @@ div.hamburger-menu ul li.logout a:hover {
   background-color: rgba(255, 255, 255, 0.5);
 }
 
-.favoritas img {
+.movie-box div div div img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -240,7 +248,7 @@ div.hamburger-menu ul li.logout a:hover {
   border-radius: 15px;
 }
 
-.favoritas div h5 {
+.movie-box div div h5 {
   font-size: 1rem;
 }
 
@@ -391,12 +399,13 @@ div.hamburger-menu ul li.logout a:hover {
 }
 
 .crear-pelicula button,
-.usuarios form button[type="submit"] {
+.crear-usuario form button[type="submit"] {
   background-color: mediumseagreen;
   padding: 10px;
 }
 
-.editar-pelicula button[type="submit"] {
+.editar-pelicula button[type="submit"],
+.editar-usuario button[type="submit"] {
   background-color: gold;
   color: black;
   padding: 10px;
@@ -604,20 +613,20 @@ div.hamburger-menu ul li.logout a:hover {
 }
 
 @media (max-width: 600px) {
-  .favoritas>div {
+  .movie-box>div {
     width: 50%;
   }
 }
 
 @media (max-width: 450px) {
-  .favoritas>div {
+  .movie-box>div {
     width: 100%;
     margin-bottom: 50px;
   }
 }
 
 @media (min-width: 320px) {
-  .favoritas div h5 {
+  .movie-box div h5 {
     font-size: 1.25rem;
   }
 }
