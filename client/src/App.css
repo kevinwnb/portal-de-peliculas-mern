@@ -340,7 +340,8 @@ div.hamburger-menu ul li.logout a:hover {
   font-size: 120%;
   font-weight: bold;
   flex: 1 1 0px;
-  text-align: center;
+  display: flex;
+  justify-content: center;
   max-width: 100%;
 }
 
