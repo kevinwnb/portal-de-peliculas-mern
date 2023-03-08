@@ -8,6 +8,7 @@ import EditarPelicula from './EditarPelicula'
 import GestionarPeliculas from "./GestionarPeliculas"
 import GestionarUsuarios from "./usuario/GestionarUsuarios"
 import CrearUsuario from "./usuario/CrearUsuario"
+import "@flaticon/flaticon-uicons/css/all/all.css"
 
 const Admin = (props) => {
     const [token, setToken] = useState(Cookies.get("admin-token") || "")
@@ -26,12 +27,12 @@ const Admin = (props) => {
     return (<>
         <div className="d-flex">
             <nav className="admin-nav">
-                <NavLink activeclassname="active" to="/admin/dashboard">Dashboard</NavLink>
-                <NavLink activeclassname="active" to="/admin/peliculas/gestionar">Gestionar películas</NavLink>
-                <NavLink activeclassname="active" to="/admin/peliculas/crear">Añadir Película</NavLink>
-                <NavLink activeclassname="active" to="/admin/usuarios/gestionar">Gestionar Usuarios</NavLink>
-                <NavLink activeclassname="active" to="/admin/usuarios/crear">Añadir Administrador</NavLink>
-                <button onClick={e => logout()}>Salir</button>
+                <NavLink activeclassname="active" to="/admin/dashboard"><i className="fi fi-br-grid"></i> Dashboard</NavLink>
+                <NavLink activeclassname="active" to="/admin/peliculas/gestionar"><i className="fi fi-rr-layer-plus"></i> Gestionar películas</NavLink>
+                <NavLink activeclassname="active" to="/admin/peliculas/crear"><i className="fi fi-rs-square-plus"></i> Añadir Película</NavLink>
+                <NavLink activeclassname="active" to="/admin/usuarios/gestionar"><i className="fi fi-rr-layer-plus"></i> Gestionar Usuarios</NavLink>
+                <NavLink activeclassname="active" to="/admin/usuarios/crear"><i className="fi fi-rs-square-plus"></i> Añadir Administrador</NavLink>
+                <button onClick={e => logout()}><i className="fi fi-rs-exit"></i> Salir</button>
             </nav>
             <div style={{ paddingLeft:"200px", flex:1, maxWidth:"100%" }}>
                 <Routes>
