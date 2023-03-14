@@ -41,6 +41,7 @@ const Categorias = (props) => {
                     return console.log(data.error)
 
                 setPeliculas(data)
+                console.log(Object.entries(data))
             })
     }
 
@@ -48,10 +49,10 @@ const Categorias = (props) => {
         switch (true) {
             case (peliculasParam.length > 0 && genresParam.length > 0):
                 return (<>
-                    {genresParam.sort((a, b) => a.name.localeCompare(b.name)).map(g => (<div>
-                        <h6>{g.name}</h6>
-                        <div className="d-flex">
-                            {peliculasParam.filter(p => p.genre === g._id).map(p => (<div>
+                    {genresParam.sort((a, b) => a.name.localeCompare(b.name)).map((g, index) => (<div key={index}>
+                        <h6 className="titulo-apartado display-6 mb-5">{g.name}</h6>
+                        <div className="movie-box d-flex flex-wrap">
+                            {peliculasParam.filter(p => p.genre === g._id).map((p, index) => (<div key={index}>
                                 <div>
                                     <Link to={"/pelicula/" + p._id}>
                                         <div>

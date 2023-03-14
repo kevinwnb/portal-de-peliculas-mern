@@ -34,7 +34,6 @@ const insertarPelicula = (req, res) => {
 }
 
 const getPerGenre20 = (req, res) => {
-    let peliculas = []
     Genero.find(function (err, docs) {
         if (err)
             return res.json({ error: err.message })
@@ -42,20 +41,17 @@ const getPerGenre20 = (req, res) => {
         if (!docs)
             return res.json({ error: "No se han encontrado géneros" })
 
+        var peliculas = []
 
-        docs.forEach(d => {
-            Pelicula.find({ genre: d._id }, function (err, doc) {
-                if (err)
-                    return res.json({ error: err })
+        docs.forEach(async (d, index) => {
+            let pelis = await Pelicula.find({ genre: d._id }).limit(8).exec()
 
-                if (!doc)
-                    return res.json({ error: "No se han encontrado la película" })
+            peliculas = [...peliculas, ...pelis]
 
-                peliculas.push(doc)
-            }).limit(8).exec()
+            if (index === docs.length - 1)
+                return res.json(peliculas)
+
         })
-
-        return res.json(peliculas)
     })
 }
 
