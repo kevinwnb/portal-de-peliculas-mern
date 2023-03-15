@@ -49,7 +49,7 @@ app.get("/api/generatedata", (req, res) => {
 
         let peliculas = []
 
-        for (let i = 0; i < 200; i++) {
+        for (let i = 0; i < 1000; i++) {
             const lorem = new LoremIpsum({
                 sentencesPerParagraph: {
                     max: 8,
@@ -61,7 +61,7 @@ app.get("/api/generatedata", (req, res) => {
                 }
             })
 
-            let genre = genres[(getRandomInt(genres.length - 1) - 1)]
+            let genre = genres[(getRandomInt(genres.length) - 1)]
             let subgenre = genres.filter(g => g._id !== genre._id)[(getRandomInt(genres.length - 2) - 1)]
 
             let pelicula = new Pelicula()

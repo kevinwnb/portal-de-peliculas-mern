@@ -49,14 +49,14 @@ const Categorias = (props) => {
         switch (true) {
             case (peliculasParam.length > 0 && genresParam.length > 0):
                 return (<>
-                    {genresParam.sort((a, b) => a.name.localeCompare(b.name)).map((g, index) => (<div key={index}>
-                        <h6 className="titulo-apartado display-6 mb-5">{g.name}</h6>
+                    {genresParam.sort((a, b) => a.name.localeCompare(b.name)).map((g, index) => (<div key={g._id}>
+                        <h6 className="titulo-apartado display-6 my-5">{g.name}</h6>
                         <div className="movie-box d-flex flex-wrap">
-                            {peliculasParam.filter(p => p.genre === g._id).map((p, index) => (<div key={index}>
+                            {peliculasParam.filter(p => p.genre === g._id).map((p, index) => (<div key={p._id}>
                                 <div>
                                     <Link to={"/pelicula/" + p._id}>
                                         <div>
-                                            <h5 className="stars">{p.likeAverage}</h5>
+                                            <h5 className="stars"><i className="text-warning fa-solid fa-star"></i>{p.likeAverage}</h5>
                                             <img src={p.imgPath} />
                                             <h5>{p.name}</h5>
                                         </div>

@@ -27,7 +27,7 @@ const Admin = (props) => {
 
     return (<>
         <div className="d-flex">
-            {window.location.pathname !== "/admin/login" && <nav className="admin-nav">
+            {token && window.location.pathname !== "/admin/login" && <nav className="admin-nav">
                 <NavLink activeclassname="active" to="/admin/dashboard"><i className="fi fi-br-grid"></i> Dashboard</NavLink>
                 <NavLink activeclassname="active" to="/admin/peliculas/gestionar"><i className="fi fi-rr-layer-plus"></i> Gestionar películas</NavLink>
                 <NavLink activeclassname="active" to="/admin/peliculas/crear"><i className="fi fi-rs-square-plus"></i> Añadir Película</NavLink>
