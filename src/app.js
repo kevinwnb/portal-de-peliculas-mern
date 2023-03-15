@@ -43,6 +43,12 @@ app.get("/api/generatedata", (req, res) => {
         return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
     }
 
+    Date.prototype.addDays = function(days) {
+        var date = new Date(this.valueOf());
+        date.setDate(date.getDate() + days);
+        return date;
+    }
+
     Genero.find(function (err, genres) {
         if (err)
             console.log(err)
@@ -66,7 +72,8 @@ app.get("/api/generatedata", (req, res) => {
 
             let pelicula = new Pelicula()
             pelicula.name = capitalizeFirstLetter(lorem.generateWords(getRandomInt(2) + 1))
-            pelicula.date = randomDate(new Date(2012, 0, 1), new Date())
+            let date = new Date()
+            pelicula.date = randomDate(new Date(2012, 0, 1), date.addDays(45))
             pelicula.genre = genre._id
             pelicula.subgenre = subgenre._id
             pelicula.imgPath = "/uploads/" + (getRandomInt(11) + ".png")

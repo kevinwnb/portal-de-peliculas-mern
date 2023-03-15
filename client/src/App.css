@@ -179,7 +179,7 @@ div.hamburger-menu ul li.logout a:hover {
 }
 
 .movie-box {
-  justify-content: space-around;
+  justify-content: flex-start;
 }
 
 .titulo-apartado {

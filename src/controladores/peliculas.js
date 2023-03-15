@@ -55,4 +55,19 @@ const getPerGenre20 = (req, res) => {
     })
 }
 
-module.exports = { cargarPeliculas, getPerGenre20, insertarPelicula, getPelicula }
+const getEstrenos = (req, res) => {
+    Pelicula.find({ date: { $gt: (new Date(Date.now())) } }, {}, function (err, docs) {
+        if (err)
+            return res.json({ error: err.message })
+
+        if (!docs)
+            return res.json({ error: "Actualmente no hay ningún estreno disponible" })
+
+        if (docs && docs.length === 0)
+            return res.json({ error: "Actualmente no hay ningún estreno disponible" })
+
+        return res.json(docs)
+    })
+}
+
+module.exports = { cargarPeliculas, getPerGenre20, insertarPelicula, getPelicula, getEstrenos }

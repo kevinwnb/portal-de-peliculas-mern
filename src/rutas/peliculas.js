@@ -1,10 +1,11 @@
 const router = require("express").Router()
-const { cargarPeliculas, getPerGenre20, insertarPelicula, getPelicula } = require("../controladores/peliculas")
+const peliculasController = require("../controladores/peliculas")
 const auth = require("../middleware/auth")
 
-router.get("/", auth, cargarPeliculas)
-router.get("/pergenre20", auth, getPerGenre20)
-router.get("/:id", auth, getPelicula)
-router.post("/", auth, insertarPelicula)
+router.get("/", auth, peliculasController.cargarPeliculas)
+router.get("/pergenre20", auth, peliculasController.getPerGenre20)
+router.get("/estrenos", peliculasController.getEstrenos)
+router.get("/:id", auth, peliculasController.getPelicula)
+router.post("/", auth, peliculasController.insertarPelicula)
 
 module.exports = router
