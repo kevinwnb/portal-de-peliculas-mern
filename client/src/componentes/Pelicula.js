@@ -50,8 +50,10 @@ const Pelicula = (props) => {
                 return (<>
                     <h3 className="display-3 my-5">{peliculaParam.name}</h3>
                     <div className="row">
-                        <div className="justify-content-center justify-content-xl-start d-flex col-xl-4">
-                            <img src={peliculaParam.imgPath} />
+                        <div className="mb-5 mb-xl-0 align-items-start justify-content-center justify-content-xl-start d-flex col-xl-4">
+                            <div style={{maxWidth:"250px"}}>
+                                <img src={peliculaParam.imgPath} />
+                            </div>
                         </div>
                         <div className="order-3 order-xl-2 col-xl-6">
                             {peliculaParam.description}
@@ -60,7 +62,7 @@ const Pelicula = (props) => {
                                 <Link to="/pelicula/1/ver" className="boton-comprar-4k">COMPRAR 4K</Link>
                             </div>
                         </div>
-                        <div className="flex-column order-2 order-xl-3 col-xl-2">
+                        <div className="mb-5 mb-xl-0 flex-column order-2 order-xl-3 col-xl-2">
                             <h6>Géneros</h6>
                             <p>{genres.find(g => g._id === peliculaParam.genre).name} y {genres.find(g => g._id === peliculaParam.subgenre).name}</p>
                             <h6>Fecha de estreno</h6>

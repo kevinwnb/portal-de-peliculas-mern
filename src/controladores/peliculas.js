@@ -77,13 +77,13 @@ const getSearch = (req, res) => {
     Pelicula.find({
         $or: [
             {
-                "name": { $regex: ".*" + req.body.searchString + ".*" }
+                "name": { $regex: ".*" + req.body.searchString + ".*", $options:"i" }
             },
             {
-                "genre.name": { $regex: ".*" + req.body.searchString + ".*" }
+                "genre.name": { $regex: ".*" + req.body.searchString + ".*", $options:"i" }
             },
             {
-                "subgenre.name": { $regex: ".*" + req.body.searchString + ".*" }
+                "subgenre.name": { $regex: ".*" + req.body.searchString + ".*", $options:"i" }
             },
         ]
     }, function (err, docs) {
