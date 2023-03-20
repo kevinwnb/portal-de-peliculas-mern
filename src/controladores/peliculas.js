@@ -70,4 +70,34 @@ const getEstrenos = (req, res) => {
     })
 }
 
-module.exports = { cargarPeliculas, getPerGenre20, insertarPelicula, getPelicula, getEstrenos }
+const getSearch = (req, res) => {
+    if (!req.body.searchString)
+        return res.json([])
+
+    Pelicula.find({
+        $or: [
+            {
+                "name": { $regex: ".*" + req.body.searchString + ".*" }
+            },
+            {
+                "genre.name": { $regex: ".*" + req.body.searchString + ".*" }
+            },
+            {
+                "subgenre.name": { $regex: ".*" + req.body.searchString + ".*" }
+            },
+        ]
+    }, function (err, docs) {
+        if (err)
+            return res.json({ error: err.message })
+
+        if (!docs)
+            return res.json({ error: "No hay ningún resultado" })
+
+        if (docs && docs.length === 0)
+            return res.json({ error: "No hay ningún resultado con esta búsqueda" })
+
+        return res.json(docs)
+    }).populate(["genre", "subgenre"])
+}
+
+module.exports = { cargarPeliculas, getPerGenre20, insertarPelicula, getPelicula, getEstrenos, getSearch }
