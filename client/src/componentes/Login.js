@@ -52,7 +52,7 @@ function Login(props) {
                     }
 
                     props.setToken(data.token)
-                    
+
                     return navigate("/inicio")
                 }
             })
@@ -63,15 +63,24 @@ function Login(props) {
             <div className="d-flex w-100 vh-100 justify-content-center align-items-center">
                 <form className="login-panel d-flex flex-column" onSubmit={e => login(e)}>
                     {validateEmail && <small className="text-danger">{validateEmail}</small>}
-                    <input type="text" value={email} onChange={e => setEmail(e.target.value)} className="username" placeholder="email" />
-                    <input type="password" value={password} onChange={e => setPassword(e.target.value)} className="password" placeholder="contraseña" />
-                    <button type="submit" className="py-2">Login</button>
-                    <span>
-                        <input className="me-2" onChange={() => setRecordarme(!recordarme)} checked={recordarme} type="checkbox" id="recordarme" />
-                        <label htmlFor="recordarme">Recordarme</label>
-                    </span>
-                    <Link to="/inicio">Inicio</Link>
-                    <Link to="/unete">Únete</Link>
+                    <input type="text" value={email} onChange={e => setEmail(e.target.value)} className="textbox username" placeholder="email" />
+                    <input type="password" value={password} onChange={e => setPassword(e.target.value)} className="textbox password" placeholder="contraseña" />
+                    <button type="submit">Login</button>
+                    <div className="chk-container">
+                        <div className="cntr">
+                            <label htmlFor="cbx" className="label-cbx">
+                                <input onChange={() => setRecordarme(!recordarme)} checked={recordarme} id="cbx" type="checkbox" className="invisible" />
+                                <div className="checkbox">
+                                    <svg width="20px" height="20px" viewBox="0 0 20 20">
+                                        <path d="M3,1 L17,1 L17,1 C18.1045695,1 19,1.8954305 19,3 L19,17 L19,17 C19,18.1045695 18.1045695,19 17,19 L3,19 L3,19 C1.8954305,19 1,18.1045695 1,17 L1,3 L1,3 C1,1.8954305 1.8954305,1 3,1 Z" />
+                                        <polyline points="4 11 8 15 16 6" />
+                                    </svg>
+                                </div>
+                                <span>Recordarme</span>
+                            </label>
+                        </div>
+                    </div>
+                    <span className="mt-3 unete"><h6>No tienes cuenta?</h6> <Link className="link link-light" to="/unete">Únete</Link></span>
                 </form>
             </div>
         </div>

@@ -1,3 +1,9 @@
+:root {
+  --mainColor: #D21404;
+  --mainColorHover: #fc3826;
+  --white: #ffffff;
+}
+
 body {
   overflow-y: scroll;
   overflow-x: hidden;
@@ -49,11 +55,11 @@ nav ul li a {
 }
 
 nav ul li a:hover {
-  color: mediumseagreen;
+  color: var(--mainColor);
 }
 
 nav ul li a.active {
-  color: mediumseagreen;
+  color: var(--mainColor);
 }
 
 nav ul li.logout {}
@@ -149,7 +155,10 @@ div.hamburger-menu ul li.logout a:hover {
 
 
 .login-panel {
-  max-width: 400px;
+  max-width: 350px;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 15px;
 }
 
 .login-panel .username,
@@ -160,18 +169,46 @@ div.hamburger-menu ul li.logout a:hover {
   font-size: 120%;
 }
 
-.login-panel input:not([type='checkbox']),
+.login-panel input.textbox,
 .login-panel a {
   margin: 7px 0;
 }
 
-.login-panel button {
-  background-color: mediumseagreen;
-  margin: 7px 0;
+.login-panel input.textbox {
+  padding: 15px;
+  border-radius: 10px;
+  font-size: 130%;
+  border: none;
 }
 
+.login-panel button[type="submit"] {
+  background-color: var(--mainColor);
+  margin: 7px 0;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-size: 130%;
+  font-weight: bold;
+  padding: 15px;
+}
+
+.login-panel label, .login-panel h6 {
+  color: #c0c0c0;
+}
+
+.login-panel span.unete a {
+  font-size: 130%;
+  text-decoration: none;
+}
+
+.login-panel span.unete a:hover {
+  text-decoration: underline;
+}
+
+
+
 .login-bg {
-  background-image: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)), url("./componentes/imagenes/series-netflix.webp");
+  background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url("./componentes/imagenes/series-netflix.webp");
   height: 100vh;
   width: 100%;
   background-size: cover;
@@ -595,6 +632,79 @@ div.hamburger-menu ul li.logout a:hover {
   width: 100%;
   height: 100%;
   object-fit: contain;
+}
+
+
+
+.login-panel .chk-container {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 16px;
+}
+
+.login-panel .label-cbx {
+  user-select: none;
+  cursor: pointer;
+  margin-bottom: 0;
+  display: flex;
+  align-items: center;
+}
+.login-panel .label-cbx input:checked + .checkbox {
+  border-color: var(--mainColor);
+}
+.login-panel .label-cbx input:checked + .checkbox svg path {
+  fill: var(--mainColor);
+}
+.login-panel .label-cbx input:checked + .checkbox svg polyline {
+  stroke-dashoffset: 0;
+}
+.login-panel .label-cbx:hover .checkbox svg path {
+  stroke-dashoffset: 0;
+}
+.login-panel .label-cbx .checkbox {
+  position: relative;
+  float: left;
+  margin-right: 8px;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #C8CCD4;
+  border-radius: 3px;
+}
+.login-panel .label-cbx .checkbox svg {
+  position: absolute;
+  top: -2px;
+  left: -2px;
+}
+.login-panel .label-cbx .checkbox svg path {
+  fill: none;
+  stroke: var(--mainColor);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 71px;
+  stroke-dashoffset: 71px;
+  transition: all 0.6s ease;
+}
+.login-panel .label-cbx .checkbox svg polyline {
+  fill: none;
+  stroke: #FFF;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 18px;
+  stroke-dashoffset: 18px;
+  transition: all 0.3s ease;
+}
+.login-panel .label-cbx > span {
+  pointer-events: none;
+  vertical-align: middle;
+}
+
+.login-panel .invisible {
+  position: absolute;
+  z-index: -1;
+  width: 0;
+  height: 0;
+  opacity: 0;
 }
 
 

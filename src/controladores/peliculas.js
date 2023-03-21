@@ -97,7 +97,7 @@ const getSearch = (req, res) => {
             return res.json({ error: "No hay ningún resultado con esta búsqueda" })
 
         return res.json(docs)
-    }).populate(["genre", "subgenre"])
+    }).populate(["genre", "subgenre"]).limit(36)
 }
 
 module.exports = { cargarPeliculas, getPerGenre20, insertarPelicula, getPelicula, getEstrenos, getSearch }
