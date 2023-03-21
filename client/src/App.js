@@ -28,6 +28,10 @@ function App() {
 
   //genres.sort((a, b) => a.localeCompare(b))
 
+  useEffect(()=>{
+    document.title = 'Portal de películas'
+  }, [])
+
   useEffect(() => {
     localStorage.setItem("token", token)
   }, [token])
