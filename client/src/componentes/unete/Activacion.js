@@ -49,12 +49,12 @@ const Activacion = () => {
 
     return (<form onSubmit={e => verify(e)}>
         <div className="verification-code d-flex flex-column">
-            <h6 className="display-6">Verificación</h6>
+            <h6 className="display-6 text-center mb-5">Verificación</h6>
             <label htmlFor="v-code">Escribe el código de verificación enviado a tu email</label>
-            <input id="v-code" onChange={e => setCode(e.target.value)} />
+            <input id="v-code" className="textbox" onChange={e => setCode(e.target.value)} />
             {validateCode && <small className="text-danger">{validateCode}</small>}
             <button className="my-3" type="submit">Activar</button>
-            <button type="button" onClick={() => resendVerificationCode()} className="btn btn-link">Reenviar</button>
+            <button type="button" onClick={() => resendVerificationCode()} className="btn btn-link link-light">Reenviar</button>
         </div>
     </form>)
 }
