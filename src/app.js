@@ -6,7 +6,7 @@ const peliculaRouter = require("./rutas/admin/pelicula")
 const app = express()
 const mongoose = require("mongoose")
 const fs = require("fs")
-mongoose.connect('mongodb://127.0.0.1:27017/mynodeapp1');
+mongoose.connect('mongodb://127.0.0.1:27017/portal_de_peliculas');
 const generoRouter = require("./rutas/admin/genero")
 const path = require("path")
 const LoremIpsum = require("lorem-ipsum").LoremIpsum
