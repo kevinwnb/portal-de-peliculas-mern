@@ -44,7 +44,7 @@ const register = (req, res) => {
             return res.json({ error: err.message })
 
         if (doc)
-            return res.json({ error: "Usuario existente" })
+            return res.json({ error: "Una cuenta con este email ya existe" })
 
         bcrypt.hash(req.body.password, 10, function (err, hash) {
             if (err)

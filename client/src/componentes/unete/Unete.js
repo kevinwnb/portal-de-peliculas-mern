@@ -11,7 +11,7 @@ const Unete = (props) => {
     }, [])
 
     return (<>
-        <div className="login-bg">
+        <div className="register-bg">
             <div className="container contenido register">
                 <Routes>
                     <Route index element={<Formulario />} />
