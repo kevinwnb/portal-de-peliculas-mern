@@ -43,7 +43,7 @@ const Login = (props) => {
             <form className="login-panel d-flex flex-column" onSubmit={e => login(e)}>
                 <h6 className="display-6 mb-5">Área administrativa</h6>
                 {validation && <small className="text-danger">{validation}</small>}
-                <input type="text" value={email} onChange={e => setEmail(e.target.value)} className="input email" placeholder="Email" />
+                <input type="text" value={email} onChange={e => setEmail(e.target.value)} className="input email mb-2" placeholder="Email" />
                 <input type="password" value={password} onChange={e => setPassword(e.target.value)} className="password" placeholder="contraseña" />
                 <button type="submit" className="py-2">Login</button>
             </form>

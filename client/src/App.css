@@ -176,7 +176,7 @@ div.hamburger-menu ul li.logout a:hover {
 
 .login-panel input.textbox {
   padding: 15px;
-  border-radius: 10px;
+  border-radius: 5px;
   font-size: 130%;
   border: none;
 }
@@ -185,7 +185,7 @@ div.hamburger-menu ul li.logout a:hover {
   background-color: var(--mainColor);
   margin: 7px 0;
   border: none;
-  border-radius: 10px;
+  border-radius: 5px;
   color: white;
   font-size: 130%;
   font-weight: bold;
@@ -358,7 +358,7 @@ div.hamburger-menu ul li.logout a:hover {
 }
 
 .register form input.textbox {
-  border-radius: 10px;
+  border-radius: 5px;
   font-size: 130%;
   padding: 10px;
 }
@@ -366,7 +366,7 @@ div.hamburger-menu ul li.logout a:hover {
 .register form button[type="submit"] {
   background-color: var(--mainColor);
   border: none;
-  border-radius: 10px;
+  border-radius: 5px;
   padding: 10px;
   font-size: 130%;
   font-weight: bold;

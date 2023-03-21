@@ -32,19 +32,22 @@ const Estrenos = props => {
     const renderPeliculas = (peliculasParam, infoParam) => {
         switch (true) {
             case (peliculasParam && peliculasParam.length > 0):
-                return (<div className="movie-box d-flex flex-wrap">
-                    {peliculasParam.map(p => (<div>
-                        <div>
-                            <Link to={"/pelicula/" + p._id}>
-                                <div>
-                                    <h5 className="stars"><i className="text-warning fa-solid fa-star"></i>{p.likeAverage}</h5>
-                                    <img src={p.imgPath} />
-                                    <h5>{p.name}</h5>
-                                </div>
-                            </Link>
-                        </div>
-                    </div>))}
-                </div>)
+                return (<>
+                    <h6 className="titulo-apartado display-6 mt-5">Estrenos</h6>
+                    <div className="movie-box d-flex flex-wrap">
+                        {peliculasParam.map(p => (<div>
+                            <div>
+                                <Link to={"/pelicula/" + p._id}>
+                                    <div>
+                                        <h5 className="stars"><i className="text-warning fa-solid fa-star"></i>{p.likeAverage}</h5>
+                                        <img src={p.imgPath} />
+                                        <h5>{p.name}</h5>
+                                    </div>
+                                </Link>
+                            </div>
+                        </div>))}
+                    </div>
+                </>)
                 break;
 
             case (infoParam !== ""):
@@ -59,7 +62,6 @@ const Estrenos = props => {
 
     return (<>
         <div className="wrapper contenido">
-            <h6 className="titulo-apartado display-6 mt-5">Estrenos</h6>
             {renderPeliculas(peliculas, info)}
         </div>
     </>)
