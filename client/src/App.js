@@ -28,7 +28,7 @@ function App() {
 
   //genres.sort((a, b) => a.localeCompare(b))
 
-  useEffect(()=>{
+  useEffect(() => {
     document.title = 'Portal de películas'
   }, [])
 
@@ -61,29 +61,46 @@ function App() {
     })
   }
 
+  const renderNav = () => {
+    const currentPath = window.location.pathname
+    const disablePathList = [
+      "/admin/login",
+      "/admin"
+    ]
+    switch (true) {
+      case (!disablePathList.includes(currentPath)):
+        return (<>
+          <div className='hamburger-menu'>
+            <ul>
+              <li className='ms-auto mb-5'><button className='xclose' onClick={() => closeMenu()}><i className="fa-solid fa-xmark"></i></button></li>
+              <li><NavLink to="/inicio"><i className="fa-solid fa-house"></i> <span>Inicio</span></NavLink></li>
+              <li><NavLink to="/generos"><i className="fa-solid fa-list"></i> <span>Generos</span></NavLink></li>
+              <li><NavLink to="/inicio"><i className="fa-solid fa-fire"></i> <span>Más Populares</span></NavLink></li>
+              <li className='logout'><a href="" onClick={(e) => { e.preventDefault(); logout() }}><i className="fa-solid fa-arrow-right-from-bracket"></i> <span>Salir</span></a></li>
+            </ul>
+          </div>
+          <nav>
+            <ul>
+              <li className='hamburger'><button onClick={() => openMenu()}><i className="fa-solid fa-bars"></i></button></li>
+              <li><NavLink activeclassname="active" to="/inicio"><i className="fa-solid fa-house"></i> Inicio</NavLink></li>
+              <li><NavLink activeclassname="active" to="/generos"><i className="fa-solid fa-list"></i> Géneros</NavLink></li>
+              <li><NavLink activeclassname="active" to="/estrenos"><i className="fa-solid fa-film"></i> Estrenos</NavLink></li>
+              <li><NavLink activeclassname="active" to="/buscar"><i className="fa-solid fa-magnifying-glass"></i> Búsqueda</NavLink></li>
+              <li className='logout'><a href='#' onClick={() => setToken("")}>Salir <i className="fa-solid fa-arrow-right-from-bracket"></i></a></li>
+            </ul>
+          </nav>
+        </>)
+        break;
+
+      default:
+        return null
+        break;
+    }
+  }
+
   return (
     <div className="App">
-      {nav && <>
-        <div className='hamburger-menu'>
-          <ul>
-            <li className='ms-auto mb-5'><button className='xclose' onClick={() => closeMenu()}><i className="fa-solid fa-xmark"></i></button></li>
-            <li><NavLink to="/inicio"><i className="fa-solid fa-house"></i> <span>Inicio</span></NavLink></li>
-            <li><NavLink to="/generos"><i className="fa-solid fa-list"></i> <span>Generos</span></NavLink></li>
-            <li><NavLink to="/inicio"><i className="fa-solid fa-fire"></i> <span>Más Populares</span></NavLink></li>
-            <li className='logout'><a href="" onClick={(e) => { e.preventDefault(); logout() }}><i className="fa-solid fa-arrow-right-from-bracket"></i> <span>Salir</span></a></li>
-          </ul>
-        </div>
-        <nav>
-          <ul>
-            <li className='hamburger'><button onClick={() => openMenu()}><i className="fa-solid fa-bars"></i></button></li>
-            <li><NavLink activeclassname="active" to="/inicio"><i className="fa-solid fa-house"></i> Inicio</NavLink></li>
-            <li><NavLink activeclassname="active" to="/generos"><i className="fa-solid fa-list"></i> Géneros</NavLink></li>
-            <li><NavLink activeclassname="active" to="/estrenos"><i className="fa-solid fa-film"></i> Estrenos</NavLink></li>
-            <li><NavLink activeclassname="active" to="/buscar"><i className="fa-solid fa-magnifying-glass"></i> Búsqueda</NavLink></li>
-            <li className='logout'><a href='#' onClick={() => setToken("")}>Salir <i className="fa-solid fa-arrow-right-from-bracket"></i></a></li>
-          </ul>
-        </nav>
-      </>}
+      {nav && renderNav()}
       <main>
         <Routes>
           <Route path='/' element={<Navigate to="/login" replace={true} />}></Route>
