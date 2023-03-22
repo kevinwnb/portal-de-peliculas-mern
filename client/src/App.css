@@ -175,7 +175,7 @@ div.hamburger-menu ul li.logout a:hover {
 }
 
 .login-panel input.textbox {
-  padding: 15px;
+  padding: 10px;
   border-radius: 5px;
   font-size: 130%;
   border: none;
@@ -189,7 +189,7 @@ div.hamburger-menu ul li.logout a:hover {
   color: white;
   font-size: 130%;
   font-weight: bold;
-  padding: 15px;
+  padding: 10px;
 }
 
 .login-panel label, .login-panel h6 {
