@@ -75,7 +75,8 @@ function App() {
               <li className='ms-auto mb-5'><button className='xclose' onClick={() => closeMenu()}><i className="fa-solid fa-xmark"></i></button></li>
               <li><NavLink to="/inicio"><i className="fa-solid fa-house"></i> <span>Inicio</span></NavLink></li>
               <li><NavLink to="/generos"><i className="fa-solid fa-list"></i> <span>Generos</span></NavLink></li>
-              <li><NavLink to="/inicio"><i className="fa-solid fa-fire"></i> <span>Más Populares</span></NavLink></li>
+              <li><NavLink to="/estrenos"><i className="fa-solid fa-film"></i> <span>Estrenos</span></NavLink></li>
+              <li><NavLink to="/buscar"><i className="fa-solid fa-magnifying-glass"></i> <span>Búsqueda</span></NavLink></li>
               <li className='logout'><a href="" onClick={(e) => { e.preventDefault(); logout() }}><i className="fa-solid fa-arrow-right-from-bracket"></i> <span>Salir</span></a></li>
             </ul>
           </div>
